@@ -2,7 +2,6 @@ package pl.edu.agh.webChess.controller;
 
 import java.util.logging.Logger;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.edu.agh.webChess.entity.User;
 import pl.edu.agh.webChess.service.UserService;
@@ -45,7 +43,7 @@ public class RegistrationController {
 		
 		theModel.addAttribute("user", new User());
 		
-		return "registration-form";
+		return "authentication/registration-form";
 	}
 
 	@PostMapping("/processRegistrationForm")
@@ -61,7 +59,7 @@ public class RegistrationController {
 		
 		// form validation
 		 if (theBindingResult.hasErrors()){
-			 return "registration-form";
+			 return "authentication/registration-form";
 		 }
 
 		// check the database if user already exists
@@ -71,7 +69,7 @@ public class RegistrationController {
 			theModel.addAttribute("registrationError", "User name already exists.");
 
 			logger.warning("User name already exists.");
-        	return "registration-form";
+        	return "authentication/registration-form";
         }
 
         // create user account and store in the databse
