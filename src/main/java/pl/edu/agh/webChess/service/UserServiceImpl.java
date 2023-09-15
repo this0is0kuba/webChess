@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.webChess.dao.RoleDAO;
 import pl.edu.agh.webChess.dao.UserDAO;
+import pl.edu.agh.webChess.dao.UserStatisticsDAO;
 import pl.edu.agh.webChess.entity.Role;
 import pl.edu.agh.webChess.entity.User;
 import pl.edu.agh.webChess.entity.UserStatistics;
@@ -22,12 +23,14 @@ public class UserServiceImpl implements UserService{
 
     private UserDAO userDAO;
     private RoleDAO roleDAO;
+    private UserStatisticsDAO userStatisticsDAO;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    UserServiceImpl(UserDAO userDAO, RoleDAO roleDAO, BCryptPasswordEncoder passwordEncoder) {
+    UserServiceImpl(UserDAO userDAO, RoleDAO roleDAO, UserStatisticsDAO userStatisticsDAO, BCryptPasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.roleDAO = roleDAO;
+        this.userStatisticsDAO = userStatisticsDAO;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -51,6 +54,11 @@ public class UserServiceImpl implements UserService{
         user.setUserStatistics(new UserStatistics());
 
         userDAO.save(user);
+    }
+
+    @Override
+    public UserStatistics findUserStatisticsByUserName(String name) {
+        return userStatisticsDAO.findUserStatisticsByUserName(name);
     }
 
     @Override
