@@ -9,7 +9,7 @@ create table `users` (
     `email` varchar(100) not null,
     `first_name` varchar(50) not null,
     `last_name` varchar(50) not null,
-    `enabled` boolean not null
+    `enabled` boolean not null default true
 );
 
 create table `roles` (
@@ -28,7 +28,7 @@ create table `users_roles` (
 create table `user_statistics` (
 	`id` int auto_increment,
     `games_won` int not null default 0,
-    `gammes_losses` int not null default 0,
+    `games_lost` int not null default 0,
     `games_drawn` int not null default 0,
     `points` int not null default 1000,
     primary key (`id`),
