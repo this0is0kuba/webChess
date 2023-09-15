@@ -1,0 +1,43 @@
+.custom-border {
+    border: double white;
+}
+
+.bg-dark-green {
+    background-color: #2F3E46;
+}
+
+.bg-medium-green {
+    background-color: #354F52;
+}
+
+.bg-light-green {
+    background-color: #52796F;
+}
+
+.bg-very-light-green {
+    background-color: #84A98C;
+}
+
+.bg-creamy {
+    background-color: #CAD2C5;
+}
+
+div .my-btn {
+    background-color: #2F3E46;
+    color: white
+}
+
+div .my-btn:hover {
+    color: white;
+    background-color: #1F2E36;
+}
+
+div .my-btn-two {
+    background-color: #354F52;
+    color: white
+}
+
+div .my-btn-two:hover {
+    color: white;
+    background-color: #253F42;
+}
