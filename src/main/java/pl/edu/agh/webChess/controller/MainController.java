@@ -41,6 +41,8 @@ public class MainController {
             model.addAttribute("percentage", percentage + "%");
         }
 
+        long ranking = userService.findUserRankingByUserName(userName);
+        model.addAttribute("ranking", ranking);
 
         return "home";
     }

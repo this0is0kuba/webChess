@@ -29,4 +29,28 @@ public class UserStatisticsDAOImpl implements UserStatisticsDAO {
 
         return query.getSingleResult();
     }
+
+    @Override
+    public long findRowNumberByUserNameSortByPoints(String name) {
+//        String clearSQL =   "SELECT * FROM ( " +
+//                            "   SELECT ROW_NUMBER() OVER (ORDER BY us.points), u.user_name " +
+//                            "   FROM user_statistics us " +
+//                            "   INNER JOIN users u ON u.id = us.id) n " +
+//                            "n.user_name = :data";
+
+        String jpql =   "SELECT count(us) + 1 " +
+                        "FROM UserStatistics us " +
+                        "WHERE us.points > " +
+                        "( " +
+                        "   SELECT us.points " +
+                        "   FROM User u " +
+                        "   JOIN u.userStatistics " +
+                        "   WHERE u.userName = :userName " +
+                        ") ";
+
+        TypedQuery<Long> query = entityManager.createQuery(jpql, Long.class);
+        query.setParameter("userName", name);
+
+        return query.getSingleResult();
+    }
 }

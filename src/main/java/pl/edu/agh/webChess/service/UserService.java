@@ -15,4 +15,6 @@ public interface UserService extends UserDetailsService {
     void save(User user);
 
     UserStatistics findUserStatisticsByUserName(String name);
+
+    long findUserRankingByUserName(String name);
 }

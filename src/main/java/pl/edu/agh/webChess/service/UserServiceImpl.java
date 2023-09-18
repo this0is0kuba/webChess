@@ -62,6 +62,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public long findUserRankingByUserName(String name) {
+        return userStatisticsDAO.findRowNumberByUserNameSortByPoints(name);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userDAO.findByName(userName);
 
