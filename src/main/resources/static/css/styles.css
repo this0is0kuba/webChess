@@ -29,6 +29,10 @@ div .my-btn:hover {
     background-color: #1F2E36;
 }
 
+div .my-btn:focus {
+    box-shadow: none;
+}
+
 div .my-btn-two {
     background-color: #52796F;
     color: white;
@@ -38,4 +42,8 @@ div .my-btn-two {
 div .my-btn-two:hover {
     color: white;
     background-color: #42695F;
+}
+
+div .my-btn-two:focus {
+    box-shadow: none;
 }
