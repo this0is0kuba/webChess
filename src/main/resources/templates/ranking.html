@@ -12,28 +12,29 @@
 <body class="bg-dark-green text-white" style="font-family: 'Roboto', sans-serif;">
 
     <div class="container">
-        <h3>Top 10</h3>
+        <h3 class="m-3">Top 10 Users</h3>
 
-        <table class="my-table">
+        <div class="rounded border border-4">
+            <table class="my-table">
 
-            <thead>
-                <tr>
-                    <th>Position</th>
-                    <th>User Name</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>User Name</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
 
-            <tbody>
-                <tr th:each="user : ${usersRanking}">
-                    <td th:text="${user.ranking}"></td>
-                    <td th:text="${user.user.userName}"></td>
-                    <td th:text="${user.user.userStatistics.points}"></td>
-                </tr>
-            </tbody>
+                <tbody>
+                    <tr th:each="user : ${usersRanking}">
+                        <td th:text="${user.ranking}"></td>
+                        <td th:text="${user.user.userName}"></td>
+                        <td th:text="${user.user.userStatistics.points}"></td>
+                    </tr>
+                </tbody>
 
-        </table>
-
+            </table>
+        </div>
 
         <div>
             <a th:href="@{/}" class="btn my-btn-two p-2" style="position: fixed; left: 2%; bottom: 2%;">
