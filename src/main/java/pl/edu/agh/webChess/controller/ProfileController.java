@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import pl.edu.agh.webChess.entity.User;
 import pl.edu.agh.webChess.entity.UserStatistics;
 import pl.edu.agh.webChess.service.UserService;
@@ -20,11 +21,11 @@ public class ProfileController {
         this.userService = userService;
     }
 
-    @GetMapping("/profile")
-    public String showProfilePage(Model model) {
+    @GetMapping("/profile/{userName}")
+    public String showProfilePage(Model model, @PathVariable String userName) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userName = auth.getName();
+        String currentUserName = auth.getName();
 
         User user = userService.findUserByName(userName);
 
@@ -32,6 +33,9 @@ public class ProfileController {
 
         long ranking = userService.findUserRankingByUserName(userName);
         model.addAttribute("ranking", ranking);
+
+        boolean checkAuthentication = currentUserName.equals(user.getUserName());
+        model.addAttribute("condition", checkAuthentication);
 
         return "profile";
     }
