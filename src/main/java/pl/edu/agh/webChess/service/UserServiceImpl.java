@@ -67,6 +67,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public Collection<User> findTop10UsersByPoints() {
+        return userDAO.find10UsersSortByPointsDesc();
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userDAO.findByName(userName);
 

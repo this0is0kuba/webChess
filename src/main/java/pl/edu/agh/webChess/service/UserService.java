@@ -5,6 +5,8 @@ import pl.edu.agh.webChess.entity.Role;
 import pl.edu.agh.webChess.entity.User;
 import pl.edu.agh.webChess.entity.UserStatistics;
 
+import java.util.Collection;
+
 
 public interface UserService extends UserDetailsService {
 
@@ -17,4 +19,6 @@ public interface UserService extends UserDetailsService {
     UserStatistics findUserStatisticsByUserName(String name);
 
     long findUserRankingByUserName(String name);
+
+    Collection<User> findTop10UsersByPoints();
 }

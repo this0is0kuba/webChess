@@ -47,3 +47,29 @@ div .my-btn-two:hover {
 div .my-btn-two:focus {
     box-shadow: none;
 }
+
+.my-table {
+    text-align: center;
+    color: white;
+    border-collapse: collapse;
+    width: 100%;
+    border: solid 4px;
+}
+
+th {
+    background-color: #242a30;
+    padding: 2%;
+    border: solid 2px;
+}
+
+td {
+    border: solid 2px;
+}
+
+tr:nth-child(even) {
+    background-color: #354F52;
+}
+
+tr:nth-child(odd) {
+    background-color: #52796F;
+}

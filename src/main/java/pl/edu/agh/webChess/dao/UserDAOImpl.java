@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pl.edu.agh.webChess.entity.User;
 
+import java.util.Collection;
+
 @Repository
 public class UserDAOImpl implements UserDAO {
 
@@ -36,5 +38,17 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void save(User user) {
         entityManager.merge(user);
+    }
+
+    @Override
+    public Collection<User> find10UsersSortByPointsDesc() {
+        String jpql =   "SELECT u " +
+                        "FROM User u " +
+                        "JOIN UserStatistics us ON u.id = us.id " +
+                        "ORDER BY us.points DESC";
+
+        TypedQuery<User> query = entityManager.createQuery(jpql, User.class).setMaxResults(10);
+
+        return query.getResultList();
     }
 }
