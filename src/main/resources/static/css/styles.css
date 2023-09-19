@@ -73,3 +73,16 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
     background-color: #52796F;
 }
+
+td a {
+    color: white;
+    text-decoration: none;
+}
+
+td a:hover {
+    color: #CAD2C5 !important;
+}
+
+td a:visited {
+    color: white;
+}
