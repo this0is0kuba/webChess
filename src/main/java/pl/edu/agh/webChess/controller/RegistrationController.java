@@ -50,8 +50,7 @@ public class RegistrationController {
 	public String processRegistrationForm(
 			@Valid @ModelAttribute("user") User user,
 			BindingResult theBindingResult,
-			Model theModel,
-			RedirectAttributes attributes) {
+			Model theModel) {
 
 
 		String userName = user.getUserName();

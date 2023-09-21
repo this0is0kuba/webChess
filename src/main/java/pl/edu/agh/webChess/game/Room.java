@@ -1,25 +1,18 @@
 package pl.edu.agh.webChess.game;
 
-import java.time.LocalTime;
-
 public class Room {
 
-    private int number;
+    private int code;
     private String owner;
     private String guest;
-    private LocalTime time;
+    private RoomTime time;
     private Status status;
+    private String password;
 
-    public Room(String owner, int number, LocalTime time) {
+    public Room() {}
 
-        this.number = number;
-        this.owner = owner;
-        this.time = time;
-        this.status = Status.SEARCHING;
-    }
-
-    public int getNumber() {
-        return number;
+    public int getCode() {
+        return code;
     }
 
     public String getOwner() {
@@ -30,7 +23,7 @@ public class Room {
         return guest;
     }
 
-    public LocalTime getTime() {
+    public RoomTime getTime() {
         return time;
     }
 
@@ -38,11 +31,31 @@ public class Room {
         return status;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     public void setGuest(String guest) {
         this.guest = guest;
     }
 
+    public void setTime(RoomTime time) {
+        this.time = time;
+    }
+
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
