@@ -44,7 +44,7 @@ public class UserStatisticsDAOImpl implements UserStatisticsDAO {
                         "( " +
                         "   SELECT us.points " +
                         "   FROM User u " +
-                        "   JOIN u.userStatistics " +
+                        "   JOIN u.userStatistics us " +
                         "   WHERE u.userName = :userName " +
                         ") ";
 
