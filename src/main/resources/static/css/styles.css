@@ -86,3 +86,63 @@ td a:hover {
 td a:visited {
     color: white;
 }
+
+.board {
+    display: grid;
+    grid-template-rows: repeat(8, 65px);
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 520px;
+    margin: 0;
+    padding: 0;
+}
+
+.cell {
+    width: 65px;
+}
+
+
+.row:nth-child(odd) .cell:nth-child(odd),
+.row:nth-child(even) .cell:nth-child(even)
+{
+    background-color: #CAD2C5;
+}
+
+.row:nth-child(even) .cell:nth-child(odd),
+.row:nth-child(odd) .cell:nth-child(even)
+{
+    background-color: #52796F;
+}
+
+.row:nth-child(1) .cell:nth-child(1) {
+    border-radius: 5px 0 0 0;
+}
+
+.row:nth-child(1) .cell:nth-child(8) {
+    border-radius: 0 5px 0 0;
+}
+
+.row:nth-child(8) .cell:nth-child(8) {
+    border-radius: 0 0 5px 0;
+}
+
+.row:nth-child(8) .cell:nth-child(1) {
+    border-radius: 0 0 0 5px;
+}
+
+.chat-messages {
+    margin-top: 50%;
+    height: 200px;
+    overflow-y: scroll;
+    padding: 2%;
+}
+
+.chat-input {
+    margin-top: 2%;
+    padding: 2%;
+}
+
+

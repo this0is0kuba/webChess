@@ -47,70 +47,23 @@
                     </thead>
 
                     <tbody>
-                    <tr>
-                        <td>#1</td>
-                        <td>10:00</td>
-                        <td>
-                            <div>
-                                <div>john - 890</div>
-                                <div>mary - 100</div>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn my-btn">Play</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#2</td>
-                        <td>10:00</td>
-                        <td>
-                            <div>
-                                <div>susan - 1300</div>
-                                <div>bob - 1450</div>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn my-btn">Play</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#3</td>
-                        <td>5:00</td>
-                        <td>
-                            <div>
-                                <div>anna - 1300</div>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn my-btn">Play</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#2</td>
-                        <td>10:00</td>
-                        <td>
-                            <div>
-                                <div>susan - 1300</div>
-                                <div>bob - 1450</div>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn my-btn">Play</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#2</td>
-                        <td>10:00</td>
-                        <td>
-                            <div>
-                                <div>susan - 1300</div>
-                                <div>bob - 1450</div>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn my-btn">Play</button>
-                        </td>
-                    </tr>
+                        <tr th:each="room : ${rooms}">
+                            <td th:text="${room.code}"></td>
+                            <td th:text="${room.time.getLabel()}"></td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <span th:text="${room.owner.userName} + ': '"></span> <span th:text="${room.owner.userStatistics.points}"></span>
+                                    </div>
+                                    <div th:if="${room.guest}">
+                                        <span th:text="${room.guest.userName} + ': '"></span> <span th:text="${room.guest.userStatistics.points}"></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="btn my-btn">Play</button>
+                            </td>
+                        </tr>
                     </tbody>
 
                 </table>

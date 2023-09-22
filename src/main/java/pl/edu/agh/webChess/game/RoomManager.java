@@ -1,39 +1,42 @@
 package pl.edu.agh.webChess.game;
 
 import org.springframework.stereotype.Component;
+import pl.edu.agh.webChess.entity.User;
 
 import java.util.*;
 
 @Component
 public class RoomManager {
-    private static List<Room> rooms = new ArrayList<>();
-    private static Set<Integer> usedCodes = new HashSet<>();
-    private static Random random = new Random();
-    private static int minCode = 1000;
-    private static int maxCode = 9999;
+    private List<Room> rooms = new ArrayList<>();
+    private Set<Integer> usedCodes = new HashSet<>();
+    private Random random = new Random();
+    private int minCode = 1000;
+    private int maxCode = 9999;
 
-    public static Room createRoom(Room room) {
+    public Room createRoom(Room room, User user) {
 
         room.setCode(generateUniqueCode());
+        room.setOwner(user);
+        room.setStatus(Status.SEARCHING);
 
         usedCodes.add(room.getCode());
         rooms.add(room);
         return room;
     }
 
-    public static void removeRoom(Room room) {
+    public void removeRoom(Room room) {
 
         usedCodes.remove(room.getCode());
         rooms.remove(room);
     }
 
-    public static Room joinRoom(String userName, int roomCode) {
+    public Room joinRoom(int roomCode, User guest) {
 
         for(Room room : rooms) {
 
             if(room.getCode() == roomCode) {
 
-                room.setGuest(userName);
+                room.setGuest(guest);
                 room.setStatus(Status.WAITING);
             }
 
@@ -43,7 +46,7 @@ public class RoomManager {
         return null;
     }
 
-    private static int generateUniqueCode() {
+    private int generateUniqueCode() {
 
         int randomCode = random.nextInt(maxCode - minCode) + minCode;
 
@@ -54,7 +57,7 @@ public class RoomManager {
         return randomCode;
     }
 
-    public static List<Room> getRooms() {
+    public List<Room> getRooms() {
         return rooms;
     }
 }
