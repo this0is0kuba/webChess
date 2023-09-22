@@ -32,18 +32,14 @@ public class RoomManager {
 
     public Room joinRoom(int roomCode, User guest) {
 
-        for(Room room : rooms) {
+        Room room = this.getRoom(roomCode);
 
-            if(room.getCode() == roomCode) {
-
-                room.setGuest(guest);
-                room.setStatus(Status.WAITING);
-            }
-
-            return room;
+        if(room != null) {
+            room.setStatus(Status.SEARCHING);
+            room.setGuest(guest);
         }
 
-        return null;
+        return room;
     }
 
     private int generateUniqueCode() {
@@ -59,5 +55,16 @@ public class RoomManager {
 
     public List<Room> getRooms() {
         return rooms;
+    }
+
+    public Room getRoom(int code) {
+
+        for(Room room: rooms) {
+
+            if(room.getCode() == code)
+                return room;
+        }
+
+        return null;
     }
 }
