@@ -1,12 +1,14 @@
 package pl.edu.agh.webChess.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.webChess.entity.User;
+import pl.edu.agh.webChess.game.Room;
 import pl.edu.agh.webChess.game.RoomManager;
 import pl.edu.agh.webChess.service.UserService;
 
@@ -45,9 +47,21 @@ public class GameController {
         String contextPath = request.getContextPath();
         String protocolAndHost = "http://localhost:8080";
 
-        if(roomManager.joinRoom(Integer.parseInt(roomNumber), user) != null)
-            return ResponseEntity.ok(protocolAndHost + contextPath + "/game/" + roomNumber);
-        else
-            return ResponseEntity.ok("null");
+        try {
+            Room room = roomManager.joinRoom(Integer.parseInt(roomNumber), user);
+
+            if(room != null)
+                return ResponseEntity.ok(protocolAndHost + contextPath + "/game/" + roomNumber);
+            else
+                return ResponseEntity.ok("null");
+
+        }
+        catch(Exception e) {
+
+            if(e.getMessage().equals("This room is full!"))
+                return ResponseEntity.ok(e.getMessage());
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

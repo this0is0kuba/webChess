@@ -51,8 +51,13 @@ public class LobbyController {
 
         User user = userService.findUserByName(userName);
 
-        roomManager.createRoom(room, user);
+        try {
+            Room theRoom = roomManager.createRoom(room, user);
 
-        return "redirect:/game/" + room.getCode();
+            return "redirect:/game/" + room.getCode();
+        }
+        catch (Exception e) {
+            return "redirect:/lobby/?error";
+        }
     }
 }

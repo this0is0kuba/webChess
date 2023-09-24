@@ -1,3 +1,17 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const url = window.location.href;
+    const urlArray = url.split('?');
+
+    if(urlArray.length > 1) {
+
+        let params = urlArray[1].split('&');
+        if(params.includes("error")) {
+            alert("You are already in the room!");
+            window.location.href = window.location.href.split("?")[0];
+        }
+    }
+});
+
 function joinRoomAlert() {
     let userInput = prompt("input the Room Code: ");
 
@@ -18,13 +32,25 @@ function joinRoomAlert() {
         {
             method: "PUT",
         })
-        .then(response =>
-            response.text()
+        .then(response => {
+            if(!response.ok)
+                return response.text().then(errorMessage => {
+                    throw new Error(errorMessage);
+                })
+
+            return response.text();
+            }
         )
-        .then(data =>{
-            if(data === "null")
+        .then(data => {
+            if(String(data) === "null")
                 alert("There is no room with this code");
+
+            else if(String(data) === "This room is full!")
+                alert("This room is already full");
+
             else
-                window.location.href = data;
-        });
+                window.location.href = String(data);
+        })
+        .catch(error => alert(error.message));
+
 }
