@@ -3,6 +3,8 @@ package pl.edu.agh.webChess.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.webChess.entity.User;
 import pl.edu.agh.webChess.game.Room;
 import pl.edu.agh.webChess.game.RoomManager;
+import pl.edu.agh.webChess.model.Message;
 import pl.edu.agh.webChess.service.UserService;
 
 @Controller
@@ -28,9 +31,6 @@ public class GameController {
 
     @GetMapping("/{roomNumber}")
     public String showRoomPage(@PathVariable String roomNumber) {
-
-        //delete this
-        System.out.println(roomManager.getRoom(Integer.parseInt(roomNumber)));
 
         return "room-page";
     }
@@ -63,5 +63,12 @@ public class GameController {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @MessageMapping("game/room/{roomNumber}/chat")
+    @SendTo("/topic/room/{roomNumber}/chat")
+    public Message handleMessage(Message message) {
+
+        return new Message(message.getFrom(), message.getContent());
     }
 }

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Chess Game</title>
@@ -8,6 +10,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script th:src="@{/js/chat.js}"></script>
+
 </head>
 <body class="bg-dark-green text-white" style="font-family: 'Roboto', sans-serif;">
 
@@ -110,12 +116,13 @@
                 </div>
 
                 <div>
-                    <div class="chat-messages bg-dark">
+                    <div id="chat" class="chat-messages bg-dark rounded border border-2">
                        Chat
                     </div>
 
-                    <div class="chat-input bg-dark">
-                        Input message
+                    <div class="chat-input bg-dark d-flex justify-content-center p-2 rounded border border-2">
+                        <textarea id="messageContent" placeholder="type message..." style="margin-right: 2%; resize: none;" class="bg-dark text-white rounded"></textarea>
+                        <button onclick="sendMessage()" >Send</button>
                     </div>
                 </div>
 
