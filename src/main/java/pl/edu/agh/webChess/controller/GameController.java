@@ -8,7 +8,9 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import pl.edu.agh.webChess.entity.User;
 import pl.edu.agh.webChess.game.Room;
 import pl.edu.agh.webChess.game.RoomManager;
@@ -30,7 +32,43 @@ public class GameController {
     }
 
     @GetMapping("/{roomNumber}")
-    public String showRoomPage(@PathVariable String roomNumber) {
+    public String showRoomPage(
+            @PathVariable String roomNumber,
+            Model model
+    ) throws NoHandlerFoundException {
+
+        Room room = roomManager.getRoom(Integer.parseInt(roomNumber));
+
+        if(room == null)
+            throw new NoHandlerFoundException("GET", "/" + roomNumber, null);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userName = auth.getName();
+
+        User owner = room.getOwner();
+        User guest = room.getGuest();
+
+        String ownerName = null;
+        String guestName = null;
+
+        if(owner != null)
+            ownerName = owner.getUserName();
+
+        if(guest != null)
+            guestName = guest.getUserName();
+
+
+        if(userName.equals(ownerName)) {
+            model.addAttribute("user", ownerName);
+            model.addAttribute("opponent", guestName);
+        }
+        else if(userName.equals(guestName)) {
+            model.addAttribute("opponent", ownerName);
+            model.addAttribute("user", guestName);
+        }
+        else {
+            return "authentication/access-denied";
+        }
 
         return "room-page";
     }

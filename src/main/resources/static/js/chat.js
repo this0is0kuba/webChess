@@ -1,41 +1,47 @@
-let stompClient;
+let stompClientChat;
 connect();
 
 function connect() {
 
-    let socket = new SockJS("/game/room"); //add /{roomNumber} perhaps
-    stompClient = Stomp.over(socket);
+    let socket = new SockJS("/game/room");
+    stompClientChat = Stomp.over(socket);
 
-    stompClient.connect({}, function (frame) {
+    stompClientChat.connect({}, function (frame) {
 
         console.log("connect: " + frame);
         let roomNumber = window.location.href.split("/").slice(-1)[0];
-        stompClient.subscribe('/topic/room/' + roomNumber + '/chat', function (messageOutput) {
+        stompClientChat.subscribe('/topic/room/' + roomNumber + '/chat', function (messageOutput) {
             showMessageOutput(JSON.parse(messageOutput.body));
         })
     });
 }
 
-    function sendMessage() {
+    function sendMessage(username) {
 
         const roomNumber = window.location.href.split("/").slice(-1)[0];
         let messageContent = document.getElementById("messageContent");
 
         const content = messageContent.value;
-        const message = {"from": "Mirek", "content": content};
+        const message = {"from": username, "content": content};
 
         messageContent.value = "";
 
-        stompClient.send("/game/room/" + roomNumber + "/chat", {},
+        stompClientChat.send("/game/room/" + roomNumber + "/chat", {},
             JSON.stringify(message)
             );
+    }
+
+    function startGame() {
+
     }
 
     function showMessageOutput(messageOutput) {
 
         const chat = document.getElementById("chat");
-        const message = document.createElement("p");
+        const message = document.createElement("span");
 
         message.textContent = messageOutput.from + ": " + messageOutput.content;
+
         chat.appendChild(message);
+        chat.appendChild(document.createElement("hr"));
     }
