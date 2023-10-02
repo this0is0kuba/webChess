@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Chess Game</title>
@@ -128,7 +127,14 @@
                 </div>
 
                 <div>
-                    <div id="chat" class="chat-messages bg-dark rounded border border-2"></div>
+                    <div id="chat" class="chat-messages bg-dark rounded border border-2">
+
+                        <span th:each="message : ${chat}">
+                            <span th:text="${message}"></span>
+                            <hr/>
+                        </span>
+
+                    </div>
 
                     <div class="chat-input bg-dark d-flex justify-content-center p-2 rounded border border-2">
                         <textarea id="messageContent" placeholder="type message..." style="margin-right: 2%; resize: none;" class="bg-dark text-white rounded"></textarea>

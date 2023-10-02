@@ -1,4 +1,4 @@
-package pl.edu.agh.webChess.controller.communication;
+package pl.edu.agh.webChess.communication;
 
 public class GameInfo {
 

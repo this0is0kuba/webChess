@@ -1,21 +1,19 @@
-package pl.edu.agh.webChess.controller.game;
+package pl.edu.agh.webChess.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import pl.edu.agh.webChess.entity.User;
 import pl.edu.agh.webChess.game.Room;
 import pl.edu.agh.webChess.game.RoomManager;
-import pl.edu.agh.webChess.model.Message;
 import pl.edu.agh.webChess.service.UserService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/game")
@@ -35,12 +33,12 @@ public class GameController {
     public String showRoomPage(
             @PathVariable String roomNumber,
             Model model
-    ) throws NoHandlerFoundException {
+    ) {
 
         Room room = roomManager.getRoom(Integer.parseInt(roomNumber));
 
         if(room == null)
-            throw new NoHandlerFoundException("GET", "/" + roomNumber, null);
+            return "authentication/access-denied";
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
@@ -69,6 +67,9 @@ public class GameController {
         else {
             return "authentication/access-denied";
         }
+
+        List<String> chat = room.getChat();
+        model.addAttribute("chat", chat);
 
         return "room-page";
     }

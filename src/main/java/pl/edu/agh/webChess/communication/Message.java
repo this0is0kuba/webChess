@@ -1,4 +1,4 @@
-package pl.edu.agh.webChess.model;
+package pl.edu.agh.webChess.communication;
 
 import pl.edu.agh.webChess.entity.User;
 

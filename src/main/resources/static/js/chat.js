@@ -43,12 +43,15 @@ function sendMessage(username) {
 function showMessageOutput(messageOutput) {
 
     const chat = document.getElementById("chat");
+    const span = document.createElement("span");
     const message = document.createElement("span");
 
     message.textContent = messageOutput.from + ": " + messageOutput.content;
 
-    chat.appendChild(message);
-    chat.appendChild(document.createElement("hr"));
+    span.appendChild(message)
+    span.appendChild(document.createElement("hr"));
+
+    chat.appendChild(span);
 }
 
 function startGame() {

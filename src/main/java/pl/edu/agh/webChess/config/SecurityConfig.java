@@ -1,4 +1,4 @@
-package pl.edu.agh.webChess.security;
+package pl.edu.agh.webChess.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
