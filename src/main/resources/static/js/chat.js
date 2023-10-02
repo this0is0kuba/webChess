@@ -64,6 +64,6 @@ function startGame() {
 
 function processGameInfo(gameInfo) {
 
-    if(gameInfo.info === "start");
+    if(gameInfo.info === "start")
         console.log("the game has started");
 }

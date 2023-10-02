@@ -2,6 +2,9 @@ package pl.edu.agh.webChess.game;
 
 import pl.edu.agh.webChess.entity.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Room {
 
     private int code;
@@ -11,6 +14,7 @@ public class Room {
     private Status status;
     private String password;
     private boolean isWhite;
+    private List<String> chat = new ArrayList<>();
 
     public Room() {}
 
@@ -68,6 +72,14 @@ public class Room {
 
     public void setIsWhite(boolean isWhite) {
         this.isWhite = isWhite;
+    }
+
+    public void addMessage(String message) {
+        chat.add(message);
+    }
+
+    public List<String> getChat() {
+        return chat;
     }
 
     @Override

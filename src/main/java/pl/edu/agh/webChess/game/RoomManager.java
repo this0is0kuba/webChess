@@ -90,4 +90,15 @@ public class RoomManager {
 
         return null;
     }
+
+    public boolean addMessageToRoom(String message, int roomNumber) {
+
+        Room room = this.getRoom(roomNumber);
+
+        if(room == null)
+            return false;
+
+        room.addMessage(message);
+        return true;
+    }
 }
