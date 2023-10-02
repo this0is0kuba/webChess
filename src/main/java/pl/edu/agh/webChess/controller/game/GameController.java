@@ -1,4 +1,4 @@
-package pl.edu.agh.webChess.controller;
+package pl.edu.agh.webChess.controller.game;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -101,12 +101,5 @@ public class GameController {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-    }
-
-    @MessageMapping("game/room/{roomNumber}/chat")
-    @SendTo("/topic/room/{roomNumber}/chat")
-    public Message handleMessage(Message message) {
-
-        return new Message(message.getFrom(), message.getContent());
     }
 }

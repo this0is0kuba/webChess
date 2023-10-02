@@ -118,8 +118,13 @@
 
             <div class="container bg-light-green rounded border border-4" style="margin-left: 8%;">
 
-                <div>
-                    Actions
+                <div style="height: 10%;">
+
+                    <button onclick="startGame()" class="my-btn rounded"
+                            style="width: 80%; height: 100%; margin-right: 10%; margin-left: 10%; margin-top: 5%">
+                        Start
+                    </button>
+
                 </div>
 
                 <div>
@@ -127,7 +132,7 @@
 
                     <div class="chat-input bg-dark d-flex justify-content-center p-2 rounded border border-2">
                         <textarea id="messageContent" placeholder="type message..." style="margin-right: 2%; resize: none;" class="bg-dark text-white rounded"></textarea>
-                        <button onclick="sendMessage(document.querySelector('#user').textContent)">Send</button>
+                        <button onclick="sendMessage(document.querySelector('#user').textContent)" class="my-btn rounded">Send</button>
                     </div>
                 </div>
 

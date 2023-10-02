@@ -1,47 +1,69 @@
-let stompClientChat;
-connect();
+let stompClient;
 
-function connect() {
+async function connect() {
 
-    let socket = new SockJS("/game/room");
-    stompClientChat = Stomp.over(socket);
+    return new Promise((resolve, reject) => {
+        let socket = new SockJS("/websocket");
+        stompClient = Stomp.over(socket);
 
-    stompClientChat.connect({}, function (frame) {
+        stompClient.connect({}, function (frame) {
 
-        console.log("connect: " + frame);
-        let roomNumber = window.location.href.split("/").slice(-1)[0];
-        stompClientChat.subscribe('/topic/room/' + roomNumber + '/chat', function (messageOutput) {
-            showMessageOutput(JSON.parse(messageOutput.body));
-        })
+            console.log("connect: " + frame);
+            let roomNumber = window.location.href.split("/").slice(-1)[0];
+
+
+            stompClient.subscribe("/topic/room/" + roomNumber + "/chat", function (messageOutput) {
+                showMessageOutput(JSON.parse(messageOutput.body));
+            })
+
+            stompClient.subscribe("/topic/room/" + roomNumber + "/game", function (gameInfo) {
+                processGameInfo(JSON.parse(gameInfo.body));
+            })
+
+            resolve();
+        });
     });
 }
 
-    function sendMessage(username) {
+function sendMessage(username) {
 
-        const roomNumber = window.location.href.split("/").slice(-1)[0];
-        let messageContent = document.getElementById("messageContent");
+    const roomNumber = window.location.href.split("/").slice(-1)[0];
+    let messageContent = document.getElementById("messageContent");
 
-        const content = messageContent.value;
-        const message = {"from": username, "content": content};
+    const content = messageContent.value;
+    const message = {"from": username, "content": content};
 
-        messageContent.value = "";
+    messageContent.value = "";
 
-        stompClientChat.send("/game/room/" + roomNumber + "/chat", {},
-            JSON.stringify(message)
-            );
-    }
+    stompClient.send("/game/room/" + roomNumber + "/chat", {},
+        JSON.stringify(message)
+        );
+}
 
-    function startGame() {
+function showMessageOutput(messageOutput) {
 
-    }
+    const chat = document.getElementById("chat");
+    const message = document.createElement("span");
 
-    function showMessageOutput(messageOutput) {
+    message.textContent = messageOutput.from + ": " + messageOutput.content;
 
-        const chat = document.getElementById("chat");
-        const message = document.createElement("span");
+    chat.appendChild(message);
+    chat.appendChild(document.createElement("hr"));
+}
 
-        message.textContent = messageOutput.from + ": " + messageOutput.content;
+function startGame() {
 
-        chat.appendChild(message);
-        chat.appendChild(document.createElement("hr"));
-    }
+    connect()
+        .then( () => {
+            const roomNumber = window.location.href.split("/").slice(-1)[0];
+            let gameInfo = {"info": "start"};
+
+            stompClient.send("/game/room/" + roomNumber + "/game", {}, JSON.stringify(gameInfo));
+        });
+}
+
+function processGameInfo(gameInfo) {
+
+    if(gameInfo.info === "start");
+        console.log("the game has started");
+}
