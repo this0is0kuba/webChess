@@ -101,4 +101,29 @@ public class RoomManager {
         room.addMessage(message);
         return true;
     }
+
+    public void setUserReady(String username, int roomNumber) {
+
+        Room room = this.getRoom(roomNumber);
+
+        User owner = room.getOwner();
+
+        if(owner != null && owner.getUserName().equals(username))
+            room.setOwnerReady(true);
+
+        User guest = room.getGuest();
+
+        if(guest != null && guest.getUserName().equals(username))
+            room.setGuestReady(true);
+
+        if(room.isOwnerReady() && room.isGuestReady())
+            room.setStatus(Status.PLAYING);
+    }
+
+    public Status getRoomStatus(int roomNumber) {
+
+        Room room = this.getRoom(roomNumber);
+
+        return room.getStatus();
+    }
 }

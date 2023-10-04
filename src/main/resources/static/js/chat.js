@@ -54,12 +54,13 @@ function showMessageOutput(messageOutput) {
     chat.appendChild(span);
 }
 
-function startGame() {
+function startGame(username) {
 
     connect()
         .then( () => {
             const roomNumber = window.location.href.split("/").slice(-1)[0];
-            let gameInfo = {"info": "start"};
+
+            let gameInfo = {"info": "ready", "username": username};
 
             stompClient.send("/game/room/" + roomNumber + "/game", {}, JSON.stringify(gameInfo));
         });
@@ -67,6 +68,24 @@ function startGame() {
 
 function processGameInfo(gameInfo) {
 
-    if(gameInfo.info === "start")
+    setReadyConfig();
+
+    if(gameInfo.info === "start") {
+        setStartConfig()
         console.log("the game has started");
+    }
+}
+
+function setReadyConfig() {
+
+    const startButton = document.getElementById("startButton");
+    startButton.style.display = "none";
+
+
+}
+
+function setStartConfig() {
+
+    const chatButton = document.getElementById("chatButton");
+    chatButton.disabled = false;
 }

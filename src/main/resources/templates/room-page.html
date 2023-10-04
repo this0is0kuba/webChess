@@ -20,16 +20,28 @@
         <div class="container m-2 d-flex justify-content-center p-3">
 
             <div class="d-flex align-items-start flex-column" style="width: 35%; margin-left: 5%;">
+
                 <div class="p-2 bg-dark rounded border border-2 text-center" style="width: 100%;">
-                    <p id="opponent" th:text="${opponent}"></p>
+                    <span id="opponent" th:text="${opponent}"></span>
                     <hr>
-                    <p>Time </p>
+                    <span>Time </span>
                 </div>
-                <div class="mt-auto p-2 bg-dark rounded border border-2 text-center" style="width: 100%;">
-                    <p id="user" th:text="${user}"></p>
+
+                <div class="d-flex justify-content-center" style="width: 100%; margin-top: 8%;">
+                    <div class="my-circle" style="display: none;"></div>
+                </div>
+
+
+                <div class="mt-auto d-flex justify-content-center" style="width: 100%; margin-bottom: 8%;">
+                    <div class="my-circle"></div>
+                </div>
+
+                <div class="p-2 bg-dark rounded border border-2 text-center" style="width: 100%;">
+                    <span id="user" th:text="${user}"></span>
                     <hr>
-                    <p>Time</p>
+                    <span>Time</span>
                 </div>
+
             </div>
 
             <div class="board" style="margin-left: 2%;">
@@ -119,7 +131,7 @@
 
                 <div style="height: 10%;">
 
-                    <button onclick="startGame()" class="my-btn rounded"
+                    <button id="startButton" onclick="startGame(document.querySelector('#user').textContent)" class="my-btn rounded"
                             style="width: 80%; height: 100%; margin-right: 10%; margin-left: 10%; margin-top: 5%">
                         Start
                     </button>
@@ -138,7 +150,7 @@
 
                     <div class="chat-input bg-dark d-flex justify-content-center p-2 rounded border border-2">
                         <textarea id="messageContent" placeholder="type message..." style="margin-right: 2%; resize: none;" class="bg-dark text-white rounded"></textarea>
-                        <button onclick="sendMessage(document.querySelector('#user').textContent)" class="my-btn rounded">Send</button>
+                        <button id="chatButton" onclick="sendMessage(document.querySelector('#user').textContent)" class="my-btn rounded" disabled>Send</button>
                     </div>
                 </div>
 

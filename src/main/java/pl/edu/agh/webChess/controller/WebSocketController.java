@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import pl.edu.agh.webChess.communication.GameInfo;
 import pl.edu.agh.webChess.communication.Message;
 import pl.edu.agh.webChess.game.RoomManager;
+import pl.edu.agh.webChess.game.Status;
 
 @Controller
 public class WebSocketController {
@@ -30,8 +31,16 @@ public class WebSocketController {
 
     @MessageMapping("game/room/{roomNumber}/game")
     @SendTo("/topic/room/{roomNumber}/game")
-    public GameInfo handleGameInfo(GameInfo gameInfo) {
+    public GameInfo handleGameInfo(@DestinationVariable String roomNumber, GameInfo gameInfo) {
 
-        return gameInfo;
+        int intRoomNumber = Integer.parseInt(roomNumber);
+
+        if(gameInfo.getInfo().equals("ready"))
+            roomManager.setUserReady(gameInfo.getUsername(), intRoomNumber);
+
+        if(roomManager.getRoomStatus(intRoomNumber).equals(Status.PLAYING))
+            return new GameInfo("start");
+
+        return new GameInfo("null");
     }
 }

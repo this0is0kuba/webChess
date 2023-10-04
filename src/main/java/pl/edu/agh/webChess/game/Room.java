@@ -15,8 +15,26 @@ public class Room {
     private String password;
     private boolean isWhite;
     private List<String> chat = new ArrayList<>();
+    private boolean ownerReady;
+    private boolean guestReady;
 
     public Room() {}
+
+    public boolean isOwnerReady() {
+        return ownerReady;
+    }
+
+    public void setOwnerReady(boolean ownerReady) {
+        this.ownerReady = ownerReady;
+    }
+
+    public boolean isGuestReady() {
+        return guestReady;
+    }
+
+    public void setGuestReady(boolean guestReady) {
+        this.guestReady = guestReady;
+    }
 
     public int getCode() {
         return code;
