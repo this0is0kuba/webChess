@@ -1,12 +1,51 @@
 let stompClient;
 
-async function connect() {
+
+connect().then( () => {
+        setAppropriateStatusConnection();
+        joinRoomMessage();
+    }
+);
+
+function setAppropriateStatusConnection() {
+    const opponent = document.getElementById("opponent").textContent;
+
+    if(opponent !== "") {
+
+        const opponentStatus = document.getElementById("opponent-status");
+        opponentStatus.style.visibility = "visible";
+    }
+}
+
+function joinRoomMessage() {
+
+    const connectionInfo = document.getElementById("connection-info");
+
+    if(connectionInfo.textContent === "false") {
+        const opponent = document.getElementById("opponent").textContent;
+
+        if (opponent !== "") {
+
+            connectionInfo.textContent = "true";
+
+            const roomNumber = window.location.href.split("/").slice(-1)[0];
+            const username = document.getElementById("user").textContent;
+
+            const gameInfo = {"info": "userJoined", "username": username};
+
+            stompClient.send("/game/room/" + roomNumber + "/game", {}, JSON.stringify(gameInfo))
+        }
+    }
+
+}
+
+function connect() {
 
     return new Promise((resolve, reject) => {
         let socket = new SockJS("/websocket");
         stompClient = Stomp.over(socket);
 
-        stompClient.connect({}, function (frame) {
+        stompClient.connect({}, async function (frame) {
 
             console.log("connect: " + frame);
             let roomNumber = window.location.href.split("/").slice(-1)[0];
@@ -56,19 +95,19 @@ function showMessageOutput(messageOutput) {
 
 function startGame(username) {
 
-    connect()
-        .then( () => {
-            const roomNumber = window.location.href.split("/").slice(-1)[0];
+    const roomNumber = window.location.href.split("/").slice(-1)[0];
+    let gameInfo = {"info": "ready", "username": username};
 
-            let gameInfo = {"info": "ready", "username": username};
-
-            stompClient.send("/game/room/" + roomNumber + "/game", {}, JSON.stringify(gameInfo));
-        });
+    stompClient.send("/game/room/" + roomNumber + "/game", {}, JSON.stringify(gameInfo));
 }
 
 function processGameInfo(gameInfo) {
 
-    setReadyConfig();
+    if(gameInfo.info === "userJoined")
+        setOpponentUsername(gameInfo.username);
+
+    if(gameInfo.info === "ready" || gameInfo.info === "start")
+        setReadyConfig();
 
     if(gameInfo.info === "start") {
         setStartConfig()
@@ -88,4 +127,19 @@ function setStartConfig() {
 
     const chatButton = document.getElementById("chatButton");
     chatButton.disabled = false;
+}
+
+function setOpponentUsername(username) {
+
+    const opponent = document.getElementById("opponent");
+    const opponentStatus = document.getElementById("opponent-status");
+    const connectionInfo = document.getElementById("connection-info");
+    const roomStatus = document.getElementById("room-status");
+
+    if(opponent.textContent === "") {
+        opponent.textContent = username;
+        opponentStatus.style.visibility = "visible";
+        connectionInfo.textContent = "true";
+        roomStatus.textContent = "WAITING";
+    }
 }

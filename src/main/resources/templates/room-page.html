@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="d-flex justify-content-center" style="width: 100%; margin-top: 8%;">
-                    <div class="my-circle" style="display: none;"></div>
+                    <div id="opponent-status" class="my-circle" style="visibility: hidden;"></div>
                 </div>
 
 
@@ -153,6 +153,11 @@
                         <button id="chatButton" onclick="sendMessage(document.querySelector('#user').textContent)" class="my-btn rounded" disabled>Send</button>
                     </div>
                 </div>
+
+                <span id="room-status" th:text="${roomStatus}">
+                </span>
+                <span id="connection-info" th:text="${connectionInfo}">
+                </span>
 
             </div>
 

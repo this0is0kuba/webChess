@@ -35,12 +35,17 @@ public class WebSocketController {
 
         int intRoomNumber = Integer.parseInt(roomNumber);
 
+        if(gameInfo.getInfo().equals("userJoined")) {
+            roomManager.setConnection(Integer.parseInt(roomNumber));
+            return gameInfo;
+        }
+
         if(gameInfo.getInfo().equals("ready"))
             roomManager.setUserReady(gameInfo.getUsername(), intRoomNumber);
 
         if(roomManager.getRoomStatus(intRoomNumber).equals(Status.PLAYING))
             return new GameInfo("start");
 
-        return new GameInfo("null");
+        return new GameInfo("ready");
     }
 }

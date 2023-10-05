@@ -17,6 +17,7 @@ public class Room {
     private List<String> chat = new ArrayList<>();
     private boolean ownerReady;
     private boolean guestReady;
+    private boolean isConnectionEstablished;
 
     public Room() {}
 
@@ -34,6 +35,14 @@ public class Room {
 
     public void setGuestReady(boolean guestReady) {
         this.guestReady = guestReady;
+    }
+
+    public boolean isConnectionEstablished() {
+        return isConnectionEstablished;
+    }
+
+    public void setConnectionEstablished(boolean connectionEstablished) {
+        isConnectionEstablished = connectionEstablished;
     }
 
     public int getCode() {
@@ -92,12 +101,12 @@ public class Room {
         this.isWhite = isWhite;
     }
 
-    public void addMessage(String message) {
-        chat.add(message);
-    }
-
     public List<String> getChat() {
         return chat;
+    }
+
+    public void addMessage(String message) {
+        chat.add(message);
     }
 
     @Override

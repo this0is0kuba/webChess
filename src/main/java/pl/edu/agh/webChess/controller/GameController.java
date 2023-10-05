@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.webChess.entity.User;
 import pl.edu.agh.webChess.game.Room;
 import pl.edu.agh.webChess.game.RoomManager;
+import pl.edu.agh.webChess.game.Status;
 import pl.edu.agh.webChess.service.UserService;
 
 import java.util.List;
@@ -70,6 +71,12 @@ public class GameController {
 
         List<String> chat = room.getChat();
         model.addAttribute("chat", chat);
+
+        Status roomStatus = roomManager.getRoomStatus(Integer.parseInt(roomNumber));
+        model.addAttribute("roomStatus", roomStatus);
+
+        boolean isConnectionEstablished = roomManager.infoAboutConnection(Integer.parseInt(roomNumber));
+        model.addAttribute("connectionInfo", isConnectionEstablished);
 
         return "room-page";
     }

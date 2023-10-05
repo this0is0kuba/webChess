@@ -58,7 +58,7 @@ public class RoomManager {
             throw new RuntimeException("This room is full!");
         }
 
-        room.setStatus(Status.SEARCHING);
+        room.setStatus(Status.WAITING);
         room.setGuest(guest);
         activeUsers.add(guest.getUserName());
 
@@ -125,5 +125,15 @@ public class RoomManager {
         Room room = this.getRoom(roomNumber);
 
         return room.getStatus();
+    }
+
+    public boolean infoAboutConnection(int roomNumber) {
+        Room room = this.getRoom(roomNumber);
+
+        return room.isConnectionEstablished();
+    }
+
+    public void setConnection(int roomNumber) {
+        this.getRoom(roomNumber).setConnectionEstablished(true);
     }
 }
