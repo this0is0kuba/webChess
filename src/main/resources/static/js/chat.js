@@ -8,6 +8,7 @@ connect().then( () => {
 );
 
 function setAppropriateStatusConnection() {
+
     const opponent = document.getElementById("opponent").textContent;
 
     if(opponent !== "") {
@@ -15,6 +16,19 @@ function setAppropriateStatusConnection() {
         const opponentStatus = document.getElementById("opponent-status");
         opponentStatus.style.visibility = "visible";
     }
+
+    const roomStatus = document.getElementById("room-status");
+
+    if(roomStatus.textContent === "PLAYING") {
+
+        const chatButton = document.getElementById("chatButton");
+        chatButton.disabled = false;
+    }
+
+    const startButton = document.getElementById("startButton");
+
+    if(roomStatus.textContent !== "SEARCHING")
+        startButton.style.visibility = "visible";
 }
 
 function joinRoomMessage() {
@@ -36,7 +50,6 @@ function joinRoomMessage() {
             stompClient.send("/game/room/" + roomNumber + "/game", {}, JSON.stringify(gameInfo))
         }
     }
-
 }
 
 function connect() {
@@ -99,34 +112,47 @@ function startGame(username) {
     let gameInfo = {"info": "ready", "username": username};
 
     stompClient.send("/game/room/" + roomNumber + "/game", {}, JSON.stringify(gameInfo));
+
+    const startButton = document.getElementById("startButton");
+    startButton.style.display = "none";
+
+    const userStatusInfo = document.getElementById("user-status");
+    userStatusInfo.style.backgroundColor = "green";
 }
 
 function processGameInfo(gameInfo) {
 
+    const username = document.getElementById('user').textContent;
+
     if(gameInfo.info === "userJoined")
         setOpponentUsername(gameInfo.username);
 
-    if(gameInfo.info === "ready" || gameInfo.info === "start")
+    if(gameInfo.info === "ready" && gameInfo.username !== username)
         setReadyConfig();
 
     if(gameInfo.info === "start") {
-        setStartConfig()
+        setReadyConfig();
+        setStartConfig();
         console.log("the game has started");
     }
 }
 
 function setReadyConfig() {
 
-    const startButton = document.getElementById("startButton");
-    startButton.style.display = "none";
-
-
+    document.getElementById("opponent-status").style.backgroundColor = "green";
 }
 
 function setStartConfig() {
 
     const chatButton = document.getElementById("chatButton");
     chatButton.disabled = false;
+
+    const roomStatus = document.getElementById("room-status");
+
+    console.log(roomStatus);
+    console.log(roomStatus.textContent);
+
+    roomStatus.textContent = "PLAYING";
 }
 
 function setOpponentUsername(username) {
@@ -135,11 +161,13 @@ function setOpponentUsername(username) {
     const opponentStatus = document.getElementById("opponent-status");
     const connectionInfo = document.getElementById("connection-info");
     const roomStatus = document.getElementById("room-status");
+    const startButton = document.getElementById("startButton")
 
     if(opponent.textContent === "") {
         opponent.textContent = username;
         opponentStatus.style.visibility = "visible";
         connectionInfo.textContent = "true";
         roomStatus.textContent = "WAITING";
+        startButton.style.visibility = "visible";
     }
 }

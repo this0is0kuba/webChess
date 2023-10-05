@@ -28,12 +28,12 @@
                 </div>
 
                 <div class="d-flex justify-content-center" style="width: 100%; margin-top: 8%;">
-                    <div id="opponent-status" class="my-circle" style="visibility: hidden;"></div>
+                    <div id="opponent-status" class="my-circle" th:style="'visibility : hidden; ' + 'background-color: ' + ${opponentStatusColour}"></div>
                 </div>
 
 
                 <div class="mt-auto d-flex justify-content-center" style="width: 100%; margin-bottom: 8%;">
-                    <div class="my-circle"></div>
+                    <div id="user-status" class="my-circle" th:style="'background-color: ' + ${userStatusColour}"></div>
                 </div>
 
                 <div class="p-2 bg-dark rounded border border-2 text-center" style="width: 100%;">
@@ -132,7 +132,7 @@
                 <div style="height: 10%;">
 
                     <button id="startButton" onclick="startGame(document.querySelector('#user').textContent)" class="my-btn rounded"
-                            style="width: 80%; height: 100%; margin-right: 10%; margin-left: 10%; margin-top: 5%">
+                            style="width: 80%; height: 100%; margin-right: 10%; margin-left: 10%; margin-top: 5%; visibility: hidden;">
                         Start
                     </button>
 

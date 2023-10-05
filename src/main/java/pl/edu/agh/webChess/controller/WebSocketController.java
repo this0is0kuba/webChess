@@ -44,8 +44,8 @@ public class WebSocketController {
             roomManager.setUserReady(gameInfo.getUsername(), intRoomNumber);
 
         if(roomManager.getRoomStatus(intRoomNumber).equals(Status.PLAYING))
-            return new GameInfo("start");
+            return new GameInfo("start", gameInfo.getUsername());
 
-        return new GameInfo("ready");
+        return new GameInfo("ready", gameInfo.getUsername());
     }
 }

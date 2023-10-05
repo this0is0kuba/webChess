@@ -19,6 +19,11 @@ public class GameInfo {
         this.info = info;
     }
 
+    public GameInfo(String info, String username) {
+        this.info = info;
+        this.username = username;
+    }
+
     public String getInfo() {
         return info;
     }
