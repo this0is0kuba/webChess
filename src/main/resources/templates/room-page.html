@@ -127,14 +127,15 @@
                 </div>
             </div>
 
-            <div class="container bg-light-green rounded border border-4" style="margin-left: 8%;">
+            <div class="container bg-light-green rounded border border-4" style="margin-left: 8%; position: relative;">
 
                 <div style="height: 10%;">
 
                     <button id="startButton" onclick="startGame(document.querySelector('#user').textContent)" class="my-btn rounded"
-                            style="width: 80%; height: 100%; margin-right: 10%; margin-left: 10%; margin-top: 5%; visibility: hidden;">
+                            style="width: 80%; height: 100%; margin-right: 10%; margin-left: 10%; margin-top: 3%; visibility: hidden;">
                         Start
                     </button>
+
 
                 </div>
 
@@ -154,10 +155,18 @@
                     </div>
                 </div>
 
-                <span id="room-status" th:text="${roomStatus}">
+                <span id="room-status" th:text="${roomStatus}" style="visibility: hidden;">
                 </span>
-                <span id="connection-info" th:text="${connectionInfo}">
+                <span id="connection-info" th:text="${connectionInfo}" style="visibility: hidden;">
                 </span>
+
+                <div style="background-color: grey; position: absolute; bottom: 2%;">
+
+                <button id="leaveButton" class="my-btn rounded" onclick="leaveRoom()">
+                    Leave Room
+                </button>
+
+                </div>
 
             </div>
 

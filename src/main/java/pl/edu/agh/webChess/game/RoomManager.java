@@ -136,4 +136,15 @@ public class RoomManager {
     public void setConnection(int roomNumber) {
         this.getRoom(roomNumber).setConnectionEstablished(true);
     }
+
+    public void removeGuest(Room room) {
+
+        activeUsers.remove(room.getGuest().getUserName());
+        room.setGuest(null);
+
+        room.setStatus(Status.SEARCHING);
+        room.setOwnerReady(false);
+        room.setOwnerReady(false);
+        room.setConnectionEstablished(false);
+    }
 }

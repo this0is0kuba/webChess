@@ -171,3 +171,25 @@ function setOpponentUsername(username) {
         startButton.style.visibility = "visible";
     }
 }
+
+function leaveRoom() {
+
+    const roomNumber = window.location.href.split("/").slice(-1)[0];
+    const username = document.getElementById("user").textContent;
+    const myBody = {
+        "username": username,
+        "roomNumber": roomNumber
+    }
+
+    const url = "http://localhost:8080/game/processLeavingRoom";
+
+    fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify(myBody)
+    })
+        .then( response => {
+            if(response.status === 200)
+                window.location.href = "http://localhost:8080/lobby/";
+        });
+}

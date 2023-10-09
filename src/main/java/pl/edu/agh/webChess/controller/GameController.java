@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.webChess.entity.User;
 import pl.edu.agh.webChess.game.Room;
+import pl.edu.agh.webChess.game.RoomInfo;
 import pl.edu.agh.webChess.game.RoomManager;
 import pl.edu.agh.webChess.game.Status;
 import pl.edu.agh.webChess.service.UserService;
@@ -35,8 +36,10 @@ public class GameController {
             @PathVariable String roomNumber,
             Model model
     ) {
+        int intRoomNumber = Integer.parseInt(roomNumber);
+        model.addAttribute("roomNumber", roomNumber);
 
-        Room room = roomManager.getRoom(Integer.parseInt(roomNumber));
+        Room room = roomManager.getRoom(intRoomNumber);
 
         if(room == null)
             return "authentication/access-denied";
@@ -55,8 +58,6 @@ public class GameController {
 
         if(guest != null)
             guestName = guest.getUserName();
-
-        int intRoomNumber = Integer.parseInt(roomNumber);
 
         if(userName.equals(ownerName)) {
             model.addAttribute("user", ownerName);
@@ -116,5 +117,34 @@ public class GameController {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @PutMapping("/processLeavingRoom")
+    public ResponseEntity<String> processLeavingRoom(
+            @RequestBody RoomInfo roomInfo
+            ) {
+
+        Room room = roomManager.getRoom(roomInfo.getRoomNumber());
+
+        int roomNumber = roomInfo.getRoomNumber();
+        String username = roomInfo.getUsername();
+
+        User owner = room.getOwner();
+        User guest = room.getGuest();
+
+        String guestName = null;
+        String ownerName = owner.getUserName();
+
+        if(guest != null)
+            guestName = room.getGuest().getUserName();
+
+        if(username.equals(ownerName))
+            roomManager.removeRoom(room);
+
+        if(username.equals(guestName))
+            roomManager.removeGuest(room);
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

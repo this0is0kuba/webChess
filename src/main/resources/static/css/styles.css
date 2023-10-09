@@ -134,7 +134,7 @@ td a:visited {
 }
 
 .chat-messages {
-    margin-top: 50%;
+    margin-top: 30%;
     height: 200px;
     overflow-y: scroll;
     padding: 2%;
