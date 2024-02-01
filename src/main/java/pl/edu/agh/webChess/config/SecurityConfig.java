@@ -33,6 +33,7 @@ public class SecurityConfig {
                                 .requestMatchers("/processRegistrationForm").permitAll()
                                 .requestMatchers("/css/**").permitAll()
                                 .requestMatchers("login*").permitAll()
+                                .requestMatchers("/js/authentication/*").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->

@@ -8,15 +8,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <script th:src="@{/js/authentication/login.js}" defer></script>
 </head>
 <body class="bg-dark-green" style="font-family: 'Roboto', sans-serif;">
 
-    <div class="container d-flex justify-content-center">
+    <div class="container-fluid d-flex justify-content-center">
 
-        <div class="m-5" style="width: 20%;">
+        <div class="mt-5 row d-flex justify-content-center">
 
-            <div class="d-flex justify-content-center border border-4 rounded bg-light-green">
-                <form action="#" th:action="@{/authenticateTheUser}" method="POST">
+            <div class="d-flex justify-content-center border border-4 rounded bg-light-green col-10 col-lg-6">
+                <form action="#" th:action="@{/authenticateTheUser}" method="POST" class="w-100">
 
                     <div th:if="${param.error}">
                         <div class="alert alert-danger m-3">
@@ -37,15 +38,15 @@
                     </div>
 
                     <div class="m-3">
-                        <input type="text" name="username" placeholder="User Name" class="rounded">
+                        <input id="username" type="text" name="username" placeholder="User Name" class="form-control">
                     </div>
 
                     <div class="m-3">
-                        <input type="password" name="password" placeholder="Password" class="rounded">
+                        <input id="password" type="password" name="password" placeholder="Password" class="form-control">
                     </div>
 
                     <div class="m-3">
-                        <button type="submit" class="btn my-btn">Login</button>
+                        <button type="submit" class="btn my-btn" id="submit-button" >Login</button>
                     </div>
 
                 </form>
@@ -53,6 +54,7 @@
 
             <div class="mt-2 d-flex justify-content-center">
                 <a th:href="@{/register}"
+                   id="register-button"
                    class="btn my-btn-two"
                    role="button">
                     Register New User

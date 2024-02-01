@@ -8,15 +8,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <script th:src="@{/js/authentication/registration.js}" ></script>
 </head>
 <body class="bg-dark-green" style="font-family: 'Roboto', sans-serif;">
 
-    <div class="container d-flex justify-content-center">
+    <div class="container-fluid d-flex justify-content-center">
 
-        <div class="m-5" style="width: 20%;">
+        <div class="m-5 d-flex justify-content-center row">
 
-            <div class="d-flex justify-content-center border border-4 rounded bg-light-green">
-                <form action="#" th:action="@{/processRegistrationForm}" method="POST" th:object="${user}">
+            <div class="d-flex justify-content-center border border-4 rounded bg-light-green col-10 col-lg-6">
+                <form action="#" th:action="@{/processRegistrationForm}" method="POST" th:object="${user}" class="w-100">
 
                     <div th:if="${registrationError}" class="m-3 text-danger">
 
@@ -33,7 +34,7 @@
                     </div>
 
                     <div class="m-3">
-                        <input type="text" th:field="*{userName}" placeholder="User Name" class="rounded">
+                        <input id="username" type="text" th:field="*{userName}" placeholder="User Name" class="form-control">
                     </div>
 
                     <div th:if="${#fields.hasErrors('password')}" class="m-2 text-danger">
@@ -43,7 +44,7 @@
                     </div>
 
                     <div class="m-3">
-                        <input type="password" th:field="*{password}" placeholder="Password" class="rounded">
+                        <input id="password" type="password" th:field="*{password}" placeholder="Password" class="form-control">
                     </div>
 
                     <div th:if="${#fields.hasErrors('firstName')}" class="m-2 text-danger">
@@ -53,7 +54,7 @@
                     </div>
 
                     <div class="m-3">
-                        <input type="text" th:field="*{firstName}" placeholder="First Name" class="rounded">
+                        <input id="firstname" type="text" th:field="*{firstName}" placeholder="First Name" class="form-control">
                     </div>
 
                     <div th:if="${#fields.hasErrors('lastName')}" class="m-2 text-danger">
@@ -63,7 +64,7 @@
                     </div>
 
                     <div class="m-3">
-                        <input type="text" th:field="*{lastName}" placeholder="Last Name" class="rounded">
+                        <input id="lastname" type="text" th:field="*{lastName}" placeholder="Last Name" class="form-control">
                     </div>
 
                     <div th:if="${#fields.hasErrors('email')}" class="m-2 text-danger">
@@ -73,11 +74,11 @@
                     </div>
 
                     <div class="m-3">
-                        <input type="text" th:field="*{email}" placeholder="Email" class="rounded">
+                        <input id="email" type="text" th:field="*{email}" placeholder="Email" class="form-control">
                     </div>
 
                     <div class="m-3">
-                        <button type="submit" class="btn my-btn">Register</button>
+                        <button id="submit-button" type="submit" class="btn my-btn">Register</button>
                     </div>
 
                 </form>
@@ -85,6 +86,7 @@
 
             <div class="mt-2 d-flex justify-content-center">
                 <a th:href="@{/login}"
+                   id="login-button"
                    class="btn my-btn-two"
                    role="button">
                     Back to Login Page
