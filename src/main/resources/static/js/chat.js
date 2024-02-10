@@ -64,11 +64,11 @@ function connect() {
             let roomNumber = window.location.href.split("/").slice(-1)[0];
 
 
-            stompClient.subscribe("/topic/room/" + roomNumber + "/chat", function (messageOutput) {
+            stompClient.subscribe("topic/room/" + roomNumber + "/chat", function (messageOutput) {
                 showMessageOutput(JSON.parse(messageOutput.body));
             })
 
-            stompClient.subscribe("/topic/room/" + roomNumber + "/game", function (gameInfo) {
+            stompClient.subscribe("topic/room/" + roomNumber + "/game", function (gameInfo) {
                 processGameInfo(JSON.parse(gameInfo.body));
             })
 

@@ -21,7 +21,7 @@ public class WebSocketController {
     }
 
     @MessageMapping("game/room/{roomNumber}/chat")
-    @SendTo("/topic/room/{roomNumber}/chat")
+    @SendTo("topic/room/{roomNumber}/chat")
     public Message handleMessage(@DestinationVariable String roomNumber, Message message) {
 
         roomManager.addMessageToRoom(message.getFrom() + ": " + message.getContent(), Integer.parseInt(roomNumber));
@@ -30,7 +30,7 @@ public class WebSocketController {
     }
 
     @MessageMapping("game/room/{roomNumber}/game")
-    @SendTo("/topic/room/{roomNumber}/game")
+    @SendTo("topic/room/{roomNumber}/game")
     public GameInfo handleGameInfo(@DestinationVariable String roomNumber, GameInfo gameInfo) {
 
         int intRoomNumber = Integer.parseInt(roomNumber);
