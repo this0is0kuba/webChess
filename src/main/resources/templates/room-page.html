@@ -17,9 +17,9 @@
 
     <div class="container-fluid h-100">
 
-        <div class="container m-2 d-flex justify-content-center p-3">
+        <div class="row d-flex justify-content-around w-100 mt-5">
 
-            <div class="d-flex align-items-start flex-column" style="width: 35%; margin-left: 5%;">
+            <div class="col-3 col-xl-2 d-flex align-items-start flex-column my-3">
 
                 <div class="p-2 bg-dark rounded border border-2 text-center" style="width: 100%;">
                     <span id="opponent" th:text="${opponent}"></span>
@@ -44,8 +44,8 @@
 
             </div>
 
-            <div class="board" style="margin-left: 2%;">
-                <div class="row">
+            <div class="col-9 col-xl-5 board">
+                <div class="my-row">
                     <div class="cell"></div>
                     <div class="cell"></div>
                     <div class="cell"></div>
@@ -55,7 +55,7 @@
                     <div class="cell"></div>
                     <div class="cell"></div>
                 </div>
-                <div class="row">
+                <div class="my-row">
                     <div class="cell"></div>
                     <div class="cell"></div>
                     <div class="cell"></div>
@@ -65,7 +65,7 @@
                     <div class="cell"></div>
                     <div class="cell"></div>
                 </div>
-                <div class="row">
+                <div class="my-row">
                     <div class="cell"></div>
                     <div class="cell"></div>
                     <div class="cell"></div>
@@ -75,7 +75,7 @@
                     <div class="cell"></div>
                     <div class="cell"></div>
                 </div>
-                <div class="row">
+                <div class="my-row">
                     <div class="cell"></div>
                     <div class="cell"></div>
                     <div class="cell"></div>
@@ -85,7 +85,7 @@
                     <div class="cell"></div>
                     <div class="cell"></div>
                 </div>
-                <div class="row">
+                <div class="my-row">
                     <div class="cell"></div>
                     <div class="cell"></div>
                     <div class="cell"></div>
@@ -95,7 +95,7 @@
                     <div class="cell"></div>
                     <div class="cell"></div>
                 </div>
-                <div class="row">
+                <div class="my-row">
                     <div class="cell"></div>
                     <div class="cell"></div>
                     <div class="cell"></div>
@@ -105,7 +105,7 @@
                     <div class="cell"></div>
                     <div class="cell"></div>
                 </div>
-                <div class="row">
+                <div class="my-row">
                     <div class="cell"></div>
                     <div class="cell"></div>
                     <div class="cell"></div>
@@ -115,7 +115,7 @@
                     <div class="cell"></div>
                     <div class="cell"></div>
                 </div>
-                <div class="row">
+                <div class="my-row">
                     <div class="cell"></div>
                     <div class="cell"></div>
                     <div class="cell"></div>
@@ -127,16 +127,13 @@
                 </div>
             </div>
 
-            <div class="container bg-light-green rounded border border-4" style="margin-left: 8%; position: relative;">
+            <div class="col-11 col-xl-3 bg-light-green rounded pb-4 my-3" style="position: relative;">
 
-                <div style="height: 10%;">
-
-                    <button id="startButton" onclick="startGame(document.querySelector('#user').textContent)" class="my-btn rounded"
+                <div>
+                    <button id="startButton" onclick="startGame(document.querySelector('#user').textContent)" class="my-btn rounded btn-lg"
                             style="width: 80%; height: 100%; margin-right: 10%; margin-left: 10%; margin-top: 3%; visibility: hidden;">
                         Start
                     </button>
-
-
                 </div>
 
                 <div>

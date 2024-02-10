@@ -14,33 +14,33 @@
 
     <div class="container">
 
-        <div class="container d-flex justify-content-center">
+        <div class="d-flex align-items-center justify-content-center row w-100 mt-5">
 
-            <div class="m-5" style="width: 35%;">
+            <div class="col-8 col-lg-4 mt-2">
 
                 <div class="d-flex justify-content-center border border-4 rounded bg-light-green">
-                    <div class="container m-2">
+                    <div class="m-2">
                         <div class="text-center">
                             User Personal Info
                         </div>
 
                         <hr>
 
-                        <div class="container">
+                        <div>
                             <span>User name: </span> <span style="float: right;" th:text="${user.userName}"></span>
                             <br>
                             <span>First name: </span> <span style="float: right;" th:text="${user.firstName}" th:if="${condition}"></span> <span th:if="${condition == false}" style="float: right;">------------</span>
                             <br>
                             <span>Last name: </span> <span style="float: right;" th:text="${user.lastName}" th:if="${condition}"></span> <span th:if="${condition == false}" style="float: right;">------------</span>
                             <br>
-                            <span>Email: </span> <span style="float: right;" th:text="${user.email}" th:if="${condition}"></span> <span th:if="${condition == false}" style="float: right;">------------</span>
+                            <span class="pe-2">Email: </span> <span style="float: right;" th:text="${user.email}" th:if="${condition}"></span> <span th:if="${condition == false}" style="float: right;">------------</span>
                         </div>
                     </div>
                 </div>
 
             </div>
 
-            <div class="m-5" style="width: 30%;" th:if="${condition}">
+            <div class="col-8 col-lg-4 mt-2" th:if="${condition}">
 
                 <div class="d-flex justify-content-center border border-4 rounded bg-light-green">
                     <div class="container m-2">
@@ -71,7 +71,7 @@
 
             </div>
 
-            <div class="m-5" style="width: 35%;">
+            <div class="col-8 col-lg-4 mt-2">
                 <div class="d-flex justify-content-center border border-4 rounded bg-light-green">
 
                     <div class="container m-2">

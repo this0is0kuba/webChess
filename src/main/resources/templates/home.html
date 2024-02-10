@@ -16,52 +16,57 @@
 
     <div class="container">
 
-        <div class="d-flex justify-content-between h-25 m-5">
+            <div class="row d-flex justify-content-between w-100 p-5">
 
-            <div class="w-25">
-                <img th:src="@{/images/pawn-picture.png}" class="img-fluid rounded-circle border border-4">
+                <div class="col-6 col-lg-4 d-flex align-items-center">
+                    <img th:src="@{/images/pawn-picture.png}" class="img-fluid rounded-circle border border-4">
+                 </div>
+
+                <div class="d-flex justify-content-end align-items-center col-6 col-lg-4">
+                    <div class="bg-light-green rounded text-white p-2 border border-4 w-100">
+                        <div class="d-flex align-items-center">
+                            <p class="w-100">
+                                <span>Ranking:</span> <span style="float: right;" th:text="${ranking}"></span>
+                                <br>
+                                <span>Points:</span> <span style="float: right;" th:text="${points}"></span>
+                                <br>
+                                <span>Games:</span> <span style="float: right;" th:text="${totalGames}"></span>
+                                <br>
+                                <span>Percentage of games won:</span> <span style="float: right;" th:text="${percentage}"></span>
+                            </p>
+                        </div>
+
+                        <div class="d-flex align-items-center align-text-bottom mt-4">
+                            <p class="w-100">
+                                <b>
+                                    <span>User Name: </span> <span sec:authentication="principal.username" style="float: right;"></span>
+                                </b>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
-            <div class="d-flex justify-content-center align-items-center" style="width: 30%;">
-                <div class="h-75 bg-light-green rounded text-white w-100 p-2 border border-4">
-                    <div class="d-flex align-items-center">
-                        <p class="w-100">
-                            <span>Ranking:</span> <span style="float: right;" th:text="${ranking}"></span>
-                            <br>
-                            <span>Points:</span> <span style="float: right;" th:text="${points}"></span>
-                            <br>
-                            <span>Games:</span> <span style="float: right;" th:text="${totalGames}"></span>
-                            <br>
-                            <span>Percentage of games won:</span> <span style="float: right;" th:text="${percentage}"></span>
-                        </p>
+
+        <div class="d-flex justify-content-center row w-100 mb-3">
+
+                <div class="rounded bg-light-green border border-4 col-8 col-lg-4">
+
+                    <div class="justify-content-center d-flex">
+                        <a th:href="@{/lobby/}" class="btn m-2 w-75 my-btn btn-lg">Play</a>
                     </div>
 
-                    <div class="d-flex align-items-center align-text-bottom mt-4">
-                        <p class="w-100">
-                            <b>
-                                <span>User Name: </span> <span sec:authentication="principal.username" style="float: right;"></span>
-                            </b>
-                        </p>
+                    <div class="justify-content-center d-flex">
+                        <a th:href="@{'/profile/' + ${#authentication.name}}" class="btn m-2 w-75 my-btn btn-lg">Profile</a>
+                    </div>
+
+                    <div class="justify-content-center d-flex">
+                        <a th:href="@{/ranking}" class="btn m-2 w-75 my-btn btn-lg">Ranking</a>
                     </div>
 
                 </div>
-            </div>
-
-        </div>
-
-        <div class="container w-25 rounded bg-light-green border border-4">
-
-            <div class="justify-content-center d-flex">
-                <a th:href="@{/lobby/}" class="btn m-2 w-75 my-btn">Play</a>
-            </div>
-
-            <div class="justify-content-center d-flex">
-                <a th:href="@{'/profile/' + ${#authentication.name}}" class="btn m-2 w-75 my-btn">Profile</a>
-            </div>
-
-            <div class="justify-content-center d-flex">
-                <a th:href="@{/ranking}" class="btn m-2 w-75 my-btn">Ranking</a>
-            </div>
 
         </div>
 
