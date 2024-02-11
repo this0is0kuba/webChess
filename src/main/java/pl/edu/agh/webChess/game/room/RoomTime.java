@@ -1,4 +1,4 @@
-package pl.edu.agh.webChess.game;
+package pl.edu.agh.webChess.game.room;
 
 public enum RoomTime {
     M1("1 minute"),

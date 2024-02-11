@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.webChess.entity.User;
-import pl.edu.agh.webChess.game.Room;
-import pl.edu.agh.webChess.game.RoomManager;
+import pl.edu.agh.webChess.game.room.Room;
+import pl.edu.agh.webChess.game.room.RoomManager;
 import pl.edu.agh.webChess.service.UserService;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package pl.edu.agh.webChess.game;
+package pl.edu.agh.webChess.game.room;
 
 import org.springframework.stereotype.Component;
 import pl.edu.agh.webChess.entity.User;

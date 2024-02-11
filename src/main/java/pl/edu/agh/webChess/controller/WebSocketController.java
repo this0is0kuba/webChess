@@ -7,8 +7,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import pl.edu.agh.webChess.communication.GameInfo;
 import pl.edu.agh.webChess.communication.Message;
-import pl.edu.agh.webChess.game.RoomManager;
-import pl.edu.agh.webChess.game.Status;
+import pl.edu.agh.webChess.game.room.RoomManager;
+import pl.edu.agh.webChess.game.room.Status;
 
 @Controller
 public class WebSocketController {

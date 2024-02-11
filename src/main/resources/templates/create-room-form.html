@@ -23,7 +23,7 @@
                             <div class="m-2">
                                 Time:
                                 <select th:field="*{time}" class="rounded" style="float: right;">
-                                    <option th:each="enumTime : ${T(pl.edu.agh.webChess.game.RoomTime).values()}"
+                                    <option th:each="enumTime : ${T(pl.edu.agh.webChess.game.room.RoomTime).values()}"
                                             th:value="${enumTime}" th:text="${enumTime.getLabel()}">
                                     </option>
                                 </select>
