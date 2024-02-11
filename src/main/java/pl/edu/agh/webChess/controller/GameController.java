@@ -59,12 +59,15 @@ public class GameController {
         if(guest != null)
             guestName = guest.getUserName();
 
+        System.out.println(room.getIsWhite());
+
         if(userName.equals(ownerName)) {
             model.addAttribute("user", ownerName);
             model.addAttribute("opponent", guestName);
             model.addAttribute("userStatusColour", room.isOwnerReady() ? "green" : "red");
             model.addAttribute("opponentStatusColour", room.isGuestReady() ? "green" : "red");
             model.addAttribute("userReady", room.isOwnerReady());
+            model.addAttribute("isWhite", room.getIsWhite());
         }
         else if(userName.equals(guestName)) {
             model.addAttribute("opponent", ownerName);
@@ -72,10 +75,13 @@ public class GameController {
             model.addAttribute("opponentStatusColour", room.isOwnerReady() ? "green" : "red");
             model.addAttribute("userStatusColour", room.isGuestReady() ? "green" : "red");
             model.addAttribute("userReady", room.isGuestReady());
+            model.addAttribute("isWhite", !room.getIsWhite());
         }
         else {
             return "authentication/access-denied";
         }
+
+        model.addAttribute("isWhiteTour", room.isWhiteTour());
 
         List<String> chat = room.getChat();
         model.addAttribute("chat", chat);

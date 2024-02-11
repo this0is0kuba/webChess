@@ -18,6 +18,7 @@ public class Room {
     private boolean ownerReady;
     private boolean guestReady;
     private boolean isConnectionEstablished;
+    private boolean isWhiteTour = true;
 
     public Room() {}
 
@@ -107,6 +108,14 @@ public class Room {
 
     public void addMessage(String message) {
         chat.add(message);
+    }
+
+    public boolean isWhiteTour() {
+        return isWhiteTour;
+    }
+
+    public void setWhiteTour(boolean whiteTour) {
+        isWhiteTour = whiteTour;
     }
 
     @Override

@@ -11,7 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script th:src="@{/js/chat.js}"></script>
+    <script th:src="@{/js/chat.js}" defer></script>
+    <script th:src="@{/js/game.js}" defer></script>
 </head>
 <body class="bg-dark-green text-white" style="font-family: 'Roboto', sans-serif;">
 
@@ -44,7 +45,8 @@
 
             </div>
 
-            <div class="col-9 col-xl-5 board">
+            <div class="col-9 col-xl-5 board" id="board">
+
                 <div class="my-row">
                     <div class="cell"></div>
                     <div class="cell"></div>
@@ -152,10 +154,10 @@
                     </div>
                 </div>
 
-                <span id="room-status" th:text="${roomStatus}" style="visibility: hidden;">
-                </span>
-                <span id="connection-info" th:text="${connectionInfo}" style="visibility: hidden;">
-                </span>
+                <span id="room-status" th:text="${roomStatus}" style="visibility: hidden;"></span>
+                <span id="connection-info" th:text="${connectionInfo}" style="visibility: hidden;"></span>
+                <span id="colour-info" th:text="${isWhite}" style="visibility: hidden;"></span>
+                <span id="is-white-tour" th:text="${isWhiteTour}" style="visibility: hidden;"></span>
 
                 <div style="background-color: grey; position: absolute; bottom: 2%;">
 
@@ -170,6 +172,11 @@
         </div>
 
     </div>
+
+    <!--    <a href="https://www.flaticon.com/free-icons/chess" title="chess icons">Chess icons created by SBTS2018 - Flaticon</a>-->
+    <!--    <a href="https://www.flaticon.com/free-icons/chess" title="chess icons">Chess icons created by Stockio - Flaticon</a>-->
+    <!--    <a href="https://www.flaticon.com/free-icons/chess" title="chess icons">Chess icons created by deemakdaksina - Flaticon</a>-->
+    <!--    <a target="_blank" href="https://icons8.com/icon/8911/fairytale">Fairytale</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>-->
 
 </body>
 </html>
