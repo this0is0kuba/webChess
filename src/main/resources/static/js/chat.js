@@ -22,7 +22,10 @@ function setAppropriateStatusConnection() {
     if(roomStatus.textContent === "PLAYING") {
 
         const chatButton = document.getElementById("chatButton");
+        const startButton = document.getElementById("startButton");
+
         chatButton.disabled = false;
+        startButton.style.display = "none";
     }
 
     const startButton = document.getElementById("startButton");
