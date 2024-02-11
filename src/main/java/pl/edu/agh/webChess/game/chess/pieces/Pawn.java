@@ -10,6 +10,10 @@ import static pl.edu.agh.webChess.game.chess.auxiliary.MateFunctions.isYourKingM
 public class Pawn extends Piece {
     private boolean lastMoveWas2 = false;
 
+    public Pawn(boolean colour, int row, int column) {
+        super(colour, row, column);
+    }
+
     @Override
     public List<Position> getPossibleMoves(Piece[][] board) {
 

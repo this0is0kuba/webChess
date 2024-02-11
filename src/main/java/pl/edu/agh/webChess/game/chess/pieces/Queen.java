@@ -4,9 +4,9 @@ import pl.edu.agh.webChess.game.chess.auxiliary.Position;
 
 import java.util.List;
 
-public class King extends Piece{
+public class Queen extends Piece {
 
-    public King(boolean colour, int row, int column) {
+    public Queen(boolean colour, int row, int column) {
         super(colour, row, column);
     }
 

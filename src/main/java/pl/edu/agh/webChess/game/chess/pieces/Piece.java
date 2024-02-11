@@ -10,7 +10,13 @@ public abstract class Piece {
     protected int row;
     protected int column;
 
-    public abstract List<Position> getAllMoves(Piece[][] board);
+    public Piece(boolean colour, int row, int column) {
+        this.colour = colour;
+        this.row = row;
+        this.column = column;
+    }
+
+    public abstract List<Position> getAllMoves(Piece[][] board); // it includes moves after which you are mated
     public abstract List<Position> getPossibleMoves(Piece[][] board);
     public abstract void move(int newRow, int newColumn);
 
