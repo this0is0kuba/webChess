@@ -7,7 +7,7 @@ import pl.edu.agh.webChess.game.chess.pieces.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BoardTest {
+class BoardBasicTest {
 
     private Board emptyBoard;
     private Board initialBoard;
@@ -63,9 +63,9 @@ class BoardTest {
     void setPiece() {
 
         Pawn pawn = new Pawn(true, 6, 3);
-        emptyBoard.setPiece(pawn, 3, 3);
+        emptyBoard.setPiece(pawn);
 
-        assertInstanceOf(Pawn.class, emptyBoard.getPiece(3, 3));
+        assertInstanceOf(Pawn.class, emptyBoard.getPiece(6, 3));
     }
 
     @Test

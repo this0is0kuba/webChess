@@ -20,10 +20,10 @@ class PawnTest {
     }
 
     @Test
-    void checkIfTwoMovesArePossible() {
+    void checkIfMovesArePossible() {
 
         Pawn pawn = new Pawn(true, 6, 3);
-        emptyBoard.setPiece(pawn, 6, 3);
+        emptyBoard.setPiece(pawn);
 
         Piece[][] pieces = emptyBoard.getPieces();
         List<Position> possibleMoves = pieces[6][3].getPossibleMoves(pieces);
@@ -41,13 +41,13 @@ class PawnTest {
     void checkCapture1() {
 
         Pawn pawn = new Pawn(true, 6, 3);
-        emptyBoard.setPiece(pawn, 6, 3);
+        emptyBoard.setPiece(pawn);
 
         Pawn opponentPawn1 = new Pawn(false, 5, 2);
         Pawn opponentPawn2 = new Pawn(false, 5, 4);
 
-        emptyBoard.setPiece(opponentPawn1, 5, 2);
-        emptyBoard.setPiece(opponentPawn2, 5, 4);
+        emptyBoard.setPiece(opponentPawn1);
+        emptyBoard.setPiece(opponentPawn2);
 
         Piece[][] pieces = emptyBoard.getPieces();
         List<Position> possibleMoves = pieces[6][3].getPossibleMoves(pieces);
@@ -71,13 +71,13 @@ class PawnTest {
     void checkCapture2() {
 
         Pawn pawn = new Pawn(true, 6, 3);
-        emptyBoard.setPiece(pawn, 6, 3);
+        emptyBoard.setPiece(pawn);
 
         Pawn opponentPawn = new Pawn(false, 5, 2);
         Pawn yourPawn = new Pawn(true, 5, 4);
 
-        emptyBoard.setPiece(opponentPawn, 5, 2);
-        emptyBoard.setPiece(yourPawn, 5, 4);
+        emptyBoard.setPiece(opponentPawn);
+        emptyBoard.setPiece(yourPawn);
 
         Piece[][] pieces = emptyBoard.getPieces();
         List<Position> possibleMoves = pieces[6][3].getPossibleMoves(pieces);
@@ -98,10 +98,10 @@ class PawnTest {
     void checkCapture3() {
 
         Pawn pawn = new Pawn(true, 5, 0);
-        emptyBoard.setPiece(pawn, 5, 0);
+        emptyBoard.setPiece(pawn);
 
         Pawn opponentPawn = new Pawn(false, 4, 1);
-        emptyBoard.setPiece(opponentPawn, 4, 1);
+        emptyBoard.setPiece(opponentPawn);
 
         Piece[][] pieces = emptyBoard.getPieces();
         List<Position> possibleMoves = pieces[5][0].getPossibleMoves(pieces);
@@ -118,12 +118,12 @@ class PawnTest {
     @Test
     void checkEnPassantCapture() {
 
-        emptyBoard.setPiece(new Pawn(false, 1, 4), 1, 4);
+        emptyBoard.setPiece(new Pawn(false, 1, 4));
         Position from2 = new Position(1, 4);
         Position to2 = new Position(4, 4);
         emptyBoard.movePiece(from2, to2);
 
-        emptyBoard.setPiece(new Pawn(true, 6, 3), 6, 3);
+        emptyBoard.setPiece(new Pawn(true, 6, 3));
         Position from = new Position(6, 3);
         Position to = new Position(4, 3);
         emptyBoard.movePiece(from, to);
@@ -139,6 +139,4 @@ class PawnTest {
         assertEquals(5, possibleMoves.get(1).getRow());
         assertEquals(3, possibleMoves.get(1).getCol());
     }
-
-
 }

@@ -41,8 +41,8 @@ public class Board {
         return pieces[row][col];
     }
 
-    public void setPiece(Piece piece, int row, int col) {
-        pieces[row][col] = piece;
+    public void setPiece(Piece piece) {
+        pieces[piece.getRow()][piece.getColumn()] = piece;
     }
 
     public Piece[][] getPieces() {

@@ -15,22 +15,6 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public List<Position> getPossibleMoves(Piece[][] board) {
-
-        List<Position> possibleMoves = new ArrayList<>();
-
-        for(Position to : getAllMoves(board)) {
-
-            Position from = new Position(row, column);
-
-            if (!isYourKingMatedAfterYourMove(board, from, to))
-                possibleMoves.add(to);
-        }
-
-        return possibleMoves;
-    }
-
-    @Override
     public void move(int newRow, int newColumn) {
 
         if( Math.abs(newRow - row) == 2)
