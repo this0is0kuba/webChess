@@ -1,12 +1,16 @@
 package pl.edu.agh.webChess.game.chess;
 
+import pl.edu.agh.webChess.game.chess.auxiliary.Position;
 import pl.edu.agh.webChess.game.chess.pieces.*;
 
 public class Board {
 
     private Piece[][] pieces = new Piece[8][8];
 
-    Board() {
+    public Board(boolean emptyBoard) {
+
+        if(emptyBoard)
+            return;
 
         pieces[0][0] = new Rook(false, 0, 0);
         pieces[0][1] = new Knight(false, 0, 1);
@@ -33,5 +37,24 @@ public class Board {
             pieces[6][i] = new Pawn(true, 6, i);
     }
 
+    public Piece getPiece(int row, int col) {
+        return pieces[row][col];
+    }
 
+    public void setPiece(Piece piece, int row, int col) {
+        pieces[row][col] = piece;
+    }
+
+    public Piece[][] getPieces() {
+        return pieces;
+    }
+
+    public void movePiece(Position from, Position to) {
+
+        Piece piece = pieces[from.getRow()][from.getCol()];
+        pieces[to.getRow()][to.getCol()] = piece;
+        pieces[from.getRow()][from.getCol()] = null;
+
+        piece.move(to.getRow(), to.getCol());
+    }
 }

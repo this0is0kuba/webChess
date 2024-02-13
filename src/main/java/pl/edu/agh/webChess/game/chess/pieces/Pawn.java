@@ -62,16 +62,16 @@ public class Pawn extends Piece {
                 allMoves.add( new Position(row - 2, column));
         }
 
-        if(board[row - 1][column - 1] != null && !board[row - 1][column - 1].getColour())
+        if(column - 1 >= 0 && board[row - 1][column - 1] != null && !board[row - 1][column - 1].getColour())
             allMoves.add( new Position(row - 1, column - 1));
 
-        if(board[row - 1][column + 1] != null && !board[row - 1][column + 1].getColour())
+        if(column + 1 < 8 && board[row - 1][column + 1] != null && !board[row - 1][column + 1].getColour())
             allMoves.add( new Position(row - 1, column + 1));
 
-        if(board[row][column - 1] instanceof Pawn && !board[row][column - 1].getColour() && ((Pawn) board[row][column - 1]).lastMoveWas2)
+        if(column - 1 >= 0 && board[row][column - 1] instanceof Pawn && !board[row][column - 1].getColour() && ((Pawn) board[row][column - 1]).lastMoveWas2)
             allMoves.add(new Position(row - 1, column - 1));
 
-        if(board[row][column + 1] instanceof Pawn && !board[row][column + 1].getColour() && ((Pawn) board[row][column + 1]).lastMoveWas2)
+        if(column + 1 < 8 && board[row][column + 1] instanceof Pawn && !board[row][column + 1].getColour() && ((Pawn) board[row][column + 1]).lastMoveWas2)
             allMoves.add(new Position(row - 1, column + 1));
 
         return allMoves;
@@ -82,22 +82,22 @@ public class Pawn extends Piece {
         List<Position> allMoves = new ArrayList<>();
 
         if(board[row + 1][column] == null) {
-            allMoves.add(new Position(row - 1, column));
+            allMoves.add(new Position(row + 1, column));
 
             if(row == 1 && board[row + 2][column] == null)
                 allMoves.add( new Position(row + 2, column));
         }
 
-        if(board[row + 1][column - 1] != null && board[row + 1][column - 1].getColour())
+        if(column - 1 >= 0 && board[row + 1][column - 1] != null && board[row + 1][column - 1].getColour())
             allMoves.add( new Position(row + 1, column - 1));
 
-        if(board[row + 1][column + 1] != null && board[row + 1][column + 1].getColour())
+        if(column + 1 < 8 && board[row + 1][column + 1] != null && board[row + 1][column + 1].getColour())
             allMoves.add( new Position(row + 1, column + 1));
 
-        if(board[row][column - 1] instanceof Pawn && board[row][column - 1].getColour() && ((Pawn) board[row][column - 1]).lastMoveWas2)
+        if(column - 1 >= 0 && board[row][column - 1] instanceof Pawn && board[row][column - 1].getColour() && ((Pawn) board[row][column - 1]).lastMoveWas2)
             allMoves.add(new Position(row + 1, column - 1));
 
-        if(board[row][column + 1] instanceof Pawn && board[row][column + 1].getColour() && ((Pawn) board[row][column + 1]).lastMoveWas2)
+        if(column + 1 < 8 && board[row][column + 1] instanceof Pawn && board[row][column + 1].getColour() && ((Pawn) board[row][column + 1]).lastMoveWas2)
             allMoves.add(new Position(row + 1, column + 1));
 
         return allMoves;

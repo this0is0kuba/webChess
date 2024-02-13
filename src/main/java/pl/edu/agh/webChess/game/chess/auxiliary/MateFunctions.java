@@ -6,7 +6,7 @@ public class MateFunctions {
 
     public static boolean isYourKingMatedAfterYourMove(Piece[][] board, Position from, Position to) {
 
-        boolean opponentColour = board[from.getRow()][from.getCol()].getColour();
+        boolean opponentColour = !board[from.getRow()][from.getCol()].getColour();
 
         Piece[][] newBoard = new Piece[8][8];
 
