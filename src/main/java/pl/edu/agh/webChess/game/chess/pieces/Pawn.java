@@ -8,7 +8,7 @@ import java.util.List;
 import static pl.edu.agh.webChess.game.chess.auxiliary.MateFunctions.isYourKingMatedAfterYourMove;
 
 public class Pawn extends Piece {
-    private boolean lastMoveWas2 = false;
+    boolean lastMoveWas2 = false;
 
     public Pawn(boolean colour, int row, int column) {
         super(colour, row, column);
@@ -85,9 +85,5 @@ public class Pawn extends Piece {
             allMoves.add(new Position(row + 1, column + 1));
 
         return allMoves;
-    }
-
-    public void setLastMoveWas2(boolean lastMoveWas2) {
-        this.lastMoveWas2 = lastMoveWas2;
     }
 }

@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Rook extends Piece {
 
+    boolean moved = false;
+
     public Rook(boolean colour, int row, int column) {
         super(colour, row, column);
     }
@@ -134,6 +136,8 @@ public class Rook extends Piece {
 
     @Override
     public void move(int newRow, int newColumn) {
+
+        moved = true;
 
         row = newRow;
         column = newColumn;
