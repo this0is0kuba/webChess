@@ -16,11 +16,6 @@ public class King extends Piece{
     }
 
     @Override
-    public List<Position> getPossibleMoves(Piece[][] board) {
-        return null;
-    }
-
-    @Override
     public void move(int newRow, int newColumn) {
 
     }
