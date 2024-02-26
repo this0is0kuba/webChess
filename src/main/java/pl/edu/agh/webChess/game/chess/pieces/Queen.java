@@ -11,6 +11,10 @@ public class Queen extends Piece {
         super(colour, row, column);
     }
 
+    public Queen(Queen queen) {
+        super(queen);
+    }
+
     @Override
     public List<Position> getAllMoves(Piece[][] board) {
 

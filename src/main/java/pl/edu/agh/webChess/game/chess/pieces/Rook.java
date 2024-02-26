@@ -13,6 +13,11 @@ public class Rook extends Piece {
         super(colour, row, column);
     }
 
+    public Rook(Rook rook) {
+        super(rook);
+        moved = rook.moved;
+    }
+
     @Override
     public List<Position> getAllMoves(Piece[][] board) {
 
@@ -141,5 +146,9 @@ public class Rook extends Piece {
 
         row = newRow;
         column = newColumn;
+    }
+
+    public boolean isMoved() {
+        return moved;
     }
 }

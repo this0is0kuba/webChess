@@ -11,6 +11,10 @@ public class Knight extends Piece {
         super(colour, row, column);
     }
 
+    public Knight(Knight knight) {
+        super(knight);
+    }
+
     @Override
     public List<Position> getAllMoves(Piece[][] board) {
 

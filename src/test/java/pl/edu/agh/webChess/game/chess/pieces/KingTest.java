@@ -33,8 +33,11 @@ class KingTest {
     @Test
     void checkCorrectMoves() {
 
-        Piece king = new King(true, 7, 0);
-        Piece king2 = new King(false, 5, 1);
+        Piece king = new King(true, 7, 4);
+        Piece king2 = new King(false, 0, 4);
+
+        king.move(7, 0);
+        king2.move(5, 1);
 
         emptyBoard.setPiece(king);
         emptyBoard.setPiece(king2);

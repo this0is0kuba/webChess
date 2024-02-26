@@ -5,12 +5,19 @@ import pl.edu.agh.webChess.game.chess.auxiliary.Position;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pl.edu.agh.webChess.game.chess.auxiliary.MateFunctions.checkIfCastlingIsPossible;
+
 public class King extends Piece{
 
     boolean moved = false;
 
     public King(boolean colour, int row, int column) {
         super(colour, row, column);
+    }
+
+    public King(King king) {
+        super(king);
+        moved = king.moved;
     }
 
     @Override
@@ -56,5 +63,9 @@ public class King extends Piece{
 
         row = newRow;
         column = newColumn;
+    }
+
+    public boolean isMoved() {
+        return moved;
     }
 }

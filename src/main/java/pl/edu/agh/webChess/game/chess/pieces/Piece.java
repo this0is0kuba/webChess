@@ -19,7 +19,14 @@ public abstract class Piece {
         this.column = column;
     }
 
-    public abstract List<Position> getAllMoves(Piece[][] board); // it includes moves after which you are mated
+    public Piece(Piece piece) {
+        this.colour = piece.colour;
+        this.row = piece.row;
+        this.column = piece.column;
+    }
+
+    // it includes moves after which you are mated.
+    public abstract List<Position> getAllMoves(Piece[][] board);
     public abstract void move(int newRow, int newColumn);
 
     public List<Position> getPossibleMoves(Piece[][] board) {
@@ -44,6 +51,19 @@ public abstract class Piece {
             Piece piece = board[position.getRow()][position.getCol()];
 
             if(piece instanceof King)
+                return true;
+        }
+
+        return false;
+    }
+
+    public boolean checkAttackOnRook(Piece[][] board, Rook rook) {
+
+        for (Position position: getAllMoves(board)) {
+
+            Piece piece = board[position.getRow()][position.getCol()];
+
+            if(piece == rook)
                 return true;
         }
 

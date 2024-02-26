@@ -59,8 +59,6 @@ public class GameController {
         if(guest != null)
             guestName = guest.getUserName();
 
-        System.out.println(room.getIsWhite());
-
         if(userName.equals(ownerName)) {
             model.addAttribute("user", ownerName);
             model.addAttribute("opponent", guestName);

@@ -11,6 +11,10 @@ public class Bishop extends Piece {
         super(colour, row, column);
     }
 
+    public Bishop(Bishop bishop) {
+        super(bishop);
+    }
+
     @Override
     public List<Position> getAllMoves(Piece[][] board) {
 
