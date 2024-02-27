@@ -58,7 +58,7 @@ function joinRoomMessage() {
 function connect() {
 
     return new Promise((resolve, reject) => {
-        let socket = new SockJS("/websocket");
+        let socket = new SockJS("http://localhost:8080/websocket");
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, async function (frame) {
@@ -151,9 +151,6 @@ function setStartConfig() {
     chatButton.disabled = false;
 
     const roomStatus = document.getElementById("room-status");
-
-    console.log(roomStatus);
-    console.log(roomStatus.textContent);
 
     roomStatus.textContent = "PLAYING";
 }

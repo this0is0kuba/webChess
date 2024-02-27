@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Rook extends Piece {
 
+    public String name = "ROOK";
     boolean moved = false;
 
     public Rook(boolean colour, int row, int column) {

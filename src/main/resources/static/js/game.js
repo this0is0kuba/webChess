@@ -1,136 +1,105 @@
+let stompClient2;
+const colour = document.getElementById('colour-info').textContent === 'true' ? 'white' : 'black';
+const board = document.getElementById("board");
+let allPossibleMoves;
 
-function setPieces() {
+addListener();
 
-    const myColour = document.getElementById("colour-info").textContent === "true" ? "white" : "black";
-    const opponentColour = document.getElementById("colour-info").textContent === "true" ? "black" : "white";
+function addListener() {
 
-    const board = document.getElementById("board");
+    const roomStatus = document.getElementById("room-status");
 
-    for(let i = 0; i < 16; i++) {
-
-        const pawn = document.createElement("img");
-        const colour = i >= 8 ? myColour : opponentColour;
-
-        pawn.src = "../images/chess-pieces/" + colour + "-pawn.png";
-        pawn.classList.add("img-fluid");
-        pawn.classList.add("p-2");
-
-        const k = i >= 8 ? 1 : 0
-
-        board.children[1 + 5 * k].children[i % 8].appendChild(pawn);
+    if(checkIfGameStarted(roomStatus.textContent)) {
+        setConnection();
+        addPossibilityToMovePieces();
     }
 
-    for(let i = 0; i < 4; i ++) {
+    else {
 
-        const rook = document.createElement("img");
-        const colour = i >= 2 ? myColour : opponentColour;
+        const config = { attributes: true, subtree: true, childList: true};
 
-        rook.src = "../images/chess-pieces/" + colour + "-rook.png";
-        rook.classList.add("img-fluid");
-        rook.classList.add("p-2");
+        const callback = (mutationList, observer) => {
+            for (let mutation of mutationList) {
 
-        const k = i >= 2 ? 1 : 0
+                if(checkIfGameStarted(mutation.target.textContent)) {
+                    setConnection();
+                    addPossibilityToMovePieces();
+                }
+            }
+        };
 
-        board.children[7 * k].children[(i % 2) * 7].appendChild(rook);
+        const observer = new MutationObserver(callback);
+        observer.observe(roomStatus, config);
     }
 
-    for(let i = 0; i < 4; i ++) {
+}
 
-        const knight = document.createElement("img");
-        const colour = i >= 2 ? myColour : opponentColour;
+function setConnection() {
 
-        knight.src = "../images/chess-pieces/" + colour + "-knight.png";
-        knight.classList.add("img-fluid");
-        knight.classList.add("p-2");
+    let socket = new SockJS("http://localhost:8080/websocket");
+    stompClient2 = Stomp.over(socket);
 
-        const k = i >= 2 ? 1 : 0
+    stompClient2.connect({}, function (frame) {
 
-        board.children[7 * k].children[1 + (i % 2) * 5].appendChild(knight);
-    }
+        console.log("connect: " + frame);
+        let roomNumber = window.location.href.split("/").slice(-1)[0];
 
-    for(let i = 0; i < 4; i ++) {
+        stompClient2.subscribe("topic/room/" + roomNumber + "/gameMoves", function (move) {
+            processGameMoves(JSON.parse(move.body));
+        })
 
-        const bishop = document.createElement("img");
-        const colour = i >= 2 ? myColour : opponentColour;
+        stompClient2.subscribe("topic/room/" + roomNumber + "/firstMoves", function (move) {
+            processFirstMoves(JSON.parse(move.body));
+        })
 
-        bishop.src = "../images/chess-pieces/" + colour + "-bishop.png";
-        bishop.classList.add("img-fluid");
-        bishop.classList.add("p-2");
+        const username = document.getElementById("user").textContent;
+        const gameInfo = {"info": `${colour}`, "username": username};
 
-        const k = i >= 2 ? 1 : 0
+        stompClient2.send("/game/room/" + roomNumber + "/firstMoves", {}, JSON.stringify(gameInfo));
+    })
+}
 
-        board.children[7 * k].children[2 + (i % 2) * 3].appendChild(bishop);
-    }
+function checkIfGameStarted(text) {
 
-    if(myColour === "white") {
+    return text === "PLAYING";
+}
 
-        const opponentKing = document.createElement("img");
+function addPossibilityToMovePieces() {
 
-        opponentKing.src = "../images/chess-pieces/" + opponentColour + "-king.png";
-        opponentKing.classList.add("img-fluid");
-        opponentKing.classList.add("p-2");
+    const rows = board.children;
 
-        board.children[0].children[4].appendChild(opponentKing);
+    for(let i = 0; i < rows.length; i++) {
 
-        const king = document.createElement("img");
+        let row = rows[i];
 
-        king.src = "../images/chess-pieces/" + myColour + "-king.png";
-        king.classList.add("img-fluid");
-        king.classList.add("p-2");
+        for (let j = 0; j < row.children.length; j++) {
 
-        board.children[7].children[4].appendChild(king);
+            let pieceElement = row.children[j];
 
-        const opponentQueen = document.createElement("img");
+            if (pieceElement.children.length === 1 && pieceElement.children[0].src.includes(`${colour}`)) {
 
-        opponentQueen.src = "../images/chess-pieces/" + opponentColour + "-queen.png";
-        opponentQueen.classList.add("img-fluid");
-        opponentQueen.classList.add("p-2");
-
-        board.children[0].children[3].appendChild(opponentQueen);
-
-        const queen = document.createElement("img");
-
-        queen.src = "../images/chess-pieces/" + myColour + "-queen.png";
-        queen.classList.add("img-fluid");
-        queen.classList.add("p-2");
-
-        board.children[7].children[3].appendChild(queen);
-    }
-
-    if(myColour === "black") {
-
-        const opponentKing = document.createElement("img");
-
-        opponentKing.src = "../images/chess-pieces/" + opponentColour + "-king.png";
-        opponentKing.classList.add("img-fluid");
-        opponentKing.classList.add("p-2");
-
-        board.children[0].children[3].appendChild(opponentKing);
-
-        const king = document.createElement("img");
-
-        king.src = "../images/chess-pieces/" + myColour + "-king.png";
-        king.classList.add("img-fluid");
-        king.classList.add("p-2");
-
-        board.children[7].children[3].appendChild(king);
-
-        const opponentQueen = document.createElement("img");
-
-        opponentQueen.src = "../images/chess-pieces/" + opponentColour + "-queen.png";
-        opponentQueen.classList.add("img-fluid");
-        opponentQueen.classList.add("p-2");
-
-        board.children[0].children[4].appendChild(opponentQueen);
-
-        const queen = document.createElement("img");
-
-        queen.src = "../images/chess-pieces/" + myColour + "-queen.png";
-        queen.classList.add("img-fluid");
-        queen.classList.add("p-2");
-
-        board.children[7].children[4].appendChild(queen);
+                pieceElement.addEventListener("click", () => showPossibleMovesForPiece(i, j))
+            }
+        }
     }
 }
 
-setPieces();
+// TODO
+// iterate through all possible moves and display them. Highlight the clicked field and turn off
+// highlight of the other clicked fields (use allPossibleMoves)
+function showPossibleMovesForPiece(i, j) {
+
+    const rows = board.children;
+
+    rows[i].children[j].style.backgroundColor = "gray";
+
+    console.log(i);
+}
+
+function processGameMoves() {
+    console.log("moveee");
+}
+
+function processFirstMoves(theAllPossibleMoves) {
+    allPossibleMoves = theAllPossibleMoves;
+}

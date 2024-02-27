@@ -9,6 +9,8 @@ import static pl.edu.agh.webChess.game.chess.auxiliary.MateFunctions.isYourKingM
 
 public abstract class Piece {
 
+    public String name;
+
     protected boolean colour; // true - white, false - black
     protected int row;
     protected int column;

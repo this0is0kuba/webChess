@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.webChess.entity.User;
+import pl.edu.agh.webChess.game.chess.Board;
+import pl.edu.agh.webChess.game.chess.pieces.Piece;
 import pl.edu.agh.webChess.game.room.Room;
 import pl.edu.agh.webChess.game.room.RoomInfo;
 import pl.edu.agh.webChess.game.room.RoomManager;
@@ -66,6 +68,15 @@ public class GameController {
             model.addAttribute("opponentStatusColour", room.isGuestReady() ? "green" : "red");
             model.addAttribute("userReady", room.isOwnerReady());
             model.addAttribute("isWhite", room.getIsWhite());
+
+            Piece[][] pieces;
+
+            if(room.getIsWhite())
+                pieces = roomManager.getRoom(intRoomNumber).getBoard().getPieces();
+            else
+                pieces = roomManager.getRoom(intRoomNumber).getBoard().getReversedPieces();
+
+            model.addAttribute("pieces", pieces);
         }
         else if(userName.equals(guestName)) {
             model.addAttribute("opponent", ownerName);
@@ -74,6 +85,15 @@ public class GameController {
             model.addAttribute("userStatusColour", room.isGuestReady() ? "green" : "red");
             model.addAttribute("userReady", room.isGuestReady());
             model.addAttribute("isWhite", !room.getIsWhite());
+
+            Piece[][] pieces;
+
+            if(room.getIsWhite())
+                pieces = roomManager.getRoom(intRoomNumber).getBoard().getReversedPieces();
+            else
+                pieces = roomManager.getRoom(intRoomNumber).getBoard().getPieces();
+
+            model.addAttribute("pieces", pieces);
         }
         else {
             return "authentication/access-denied";

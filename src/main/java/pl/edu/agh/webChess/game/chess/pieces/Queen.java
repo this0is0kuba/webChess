@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Queen extends Piece {
 
+    public String name = "QUEEN";
     public Queen(boolean colour, int row, int column) {
         super(colour, row, column);
     }

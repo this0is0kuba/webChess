@@ -47,86 +47,23 @@
 
             <div class="col-9 col-xl-5 board" id="board">
 
-                <div class="my-row">
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
+                <div th:each="row : ${pieces}" class="my-row">
+                    <div th:each="piece : ${row}" class="cell">
+                        <img th:if="${piece != null and piece.getColour() and piece.name == 'BISHOP'}" class="img-fluid p-2" src="../images/chess-pieces/white-bishop.png">
+                        <img th:if="${piece != null and piece.getColour() and piece.name == 'KING'}" class="img-fluid p-2" src="../images/chess-pieces/white-king.png">
+                        <img th:if="${piece != null and piece.getColour() and piece.name == 'KNIGHT'}" class="img-fluid p-2" src="../images/chess-pieces/white-knight.png">
+                        <img th:if="${piece != null and piece.getColour() and piece.name == 'PAWN'}" class="img-fluid p-2" src="../images/chess-pieces/white-pawn.png">
+                        <img th:if="${piece != null and piece.getColour() and piece.name == 'QUEEN'}" class="img-fluid p-2" src="../images/chess-pieces/white-queen.png">
+                        <img th:if="${piece != null and piece.getColour() and piece.name == 'ROOK'}" class="img-fluid p-2" src="../images/chess-pieces/white-rook.png">
+                        <img th:if="${piece != null and !piece.getColour() and piece.name == 'BISHOP'}" class="img-fluid p-2" src="../images/chess-pieces/black-bishop.png">
+                        <img th:if="${piece != null and !piece.getColour() and piece.name == 'KING'}" class="img-fluid p-2" src="../images/chess-pieces/black-king.png">
+                        <img th:if="${piece != null and !piece.getColour() and piece.name == 'KNIGHT'}" class="img-fluid p-2" src="../images/chess-pieces/black-knight.png">
+                        <img th:if="${piece != null and !piece.getColour() and piece.name == 'PAWN'}" class="img-fluid p-2" src="../images/chess-pieces/black-pawn.png">
+                        <img th:if="${piece != null and !piece.getColour() and piece.name == 'QUEEN'}" class="img-fluid p-2" src="../images/chess-pieces/black-queen.png">
+                        <img th:if="${piece != null and !piece.getColour() and piece.name == 'ROOK'}" class="img-fluid p-2" src="../images/chess-pieces/black-rook.png">
+                    </div>
                 </div>
-                <div class="my-row">
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                </div>
-                <div class="my-row">
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                </div>
-                <div class="my-row">
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                </div>
-                <div class="my-row">
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                </div>
-                <div class="my-row">
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                </div>
-                <div class="my-row">
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                </div>
-                <div class="my-row">
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                </div>
+
             </div>
 
             <div class="col-11 col-xl-3 bg-light-green rounded pb-4 my-3" style="position: relative;">

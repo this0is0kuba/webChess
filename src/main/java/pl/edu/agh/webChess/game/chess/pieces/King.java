@@ -9,6 +9,7 @@ import static pl.edu.agh.webChess.game.chess.auxiliary.MateFunctions.checkIfCast
 
 public class King extends Piece{
 
+    public String name = "KING";
     boolean moved = false;
 
     public King(boolean colour, int row, int column) {

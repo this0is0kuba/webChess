@@ -55,6 +55,18 @@ public class Board {
         return pieces;
     }
 
+    public Piece[][] getReversedPieces() {
+
+        Piece[][] reversedPieces = new Piece[8][8];
+
+        for(int i = 0; i < 8; i++)
+            for(int j = 0; j < 8; j++) {
+                reversedPieces[i][j] = pieces[7 - i][j];
+            }
+
+        return reversedPieces;
+    }
+
     public void movePiece(Position from, Position to) {
 
         changeAllPawnsStatus();

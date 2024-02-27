@@ -1,6 +1,7 @@
 package pl.edu.agh.webChess.game.room;
 
 import pl.edu.agh.webChess.entity.User;
+import pl.edu.agh.webChess.game.chess.Board;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class Room {
     private boolean guestReady;
     private boolean isConnectionEstablished;
     private boolean isWhiteTour = true;
+    private Board board = new Board(false);
 
     public Room() {}
 
@@ -116,6 +118,14 @@ public class Room {
 
     public void setWhiteTour(boolean whiteTour) {
         isWhiteTour = whiteTour;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     @Override

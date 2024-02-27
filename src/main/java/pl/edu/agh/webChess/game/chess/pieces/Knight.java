@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Knight extends Piece {
 
+    public String name = "KNIGHT";
     public Knight(boolean colour, int row, int column) {
         super(colour, row, column);
     }

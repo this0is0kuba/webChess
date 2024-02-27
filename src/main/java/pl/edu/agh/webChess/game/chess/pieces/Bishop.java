@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Bishop extends Piece {
 
+    public String name = "BISHOP";
+
     public Bishop(boolean colour, int row, int column) {
         super(colour, row, column);
     }
