@@ -72,6 +72,43 @@ public class Board {
         changeAllPawnsStatus();
 
         Piece piece = pieces[from.getRow()][from.getCol()];
+
+        // check castling
+
+        if(piece instanceof King) {
+
+            if(from.getCol() - to.getCol() == 2) {
+
+                Piece rook = pieces[from.getRow()][from.getCol() - 4];
+
+                pieces[to.getRow()][to.getCol() - 1] = rook;
+                pieces[from.getRow()][from.getCol() - 4] = null;
+
+                rook.move(to.getRow(), to.getCol() - 1);
+            }
+
+            if(from.getCol() - to.getCol() == -2) {
+                Piece rook = pieces[from.getRow()][from.getCol() + 3];
+
+                pieces[to.getRow()][to.getCol() + 1] = rook;
+                pieces[from.getRow()][from.getCol() + 3] = null;
+
+                rook.move(to.getRow(), to.getCol() + 1);
+            }
+
+        }
+
+        // check Taking en passant
+
+        if(piece instanceof Pawn) {
+
+            if(from.getCol() - to.getCol() == 1)
+                pieces[from.getRow()][from.getCol() - 1] = null;
+
+            if(from.getCol() - to.getCol() == -1)
+                pieces[from.getRow()][from.getCol() + 1] = null;
+        }
+
         pieces[to.getRow()][to.getCol()] = piece;
         pieces[from.getRow()][from.getCol()] = null;
 
