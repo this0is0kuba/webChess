@@ -84,7 +84,7 @@ public class Board {
                 pieces[from.getRow()][from.getCol() - 1] = rook;
                 pieces[from.getRow()][from.getCol() - 4] = null;
 
-                rook.move(to.getRow(), to.getCol() - 1);
+                rook.move(from.getRow(), from.getCol() - 1);
             }
 
             if(from.getCol() - to.getCol() == -2) {
@@ -93,7 +93,7 @@ public class Board {
                 pieces[from.getRow()][from.getCol() + 1] = rook;
                 pieces[from.getRow()][from.getCol() + 3] = null;
 
-                rook.move(to.getRow(), to.getCol() + 1);
+                rook.move(from.getRow(), from.getCol() + 1);
             }
 
         }
