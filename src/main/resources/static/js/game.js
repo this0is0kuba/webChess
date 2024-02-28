@@ -191,10 +191,51 @@ function move(from, to) {
     const fromElement = rows[from.row].children[from.col];
     const toElement = rows[to.row].children[to.col];
 
+    // check en passant
+
+    if(fromElement.children[0].src.includes('pawn')) {
+        if (from.col - to.col === 1 && rows[to.row].children[to.col].children.length === 0)
+            rows[from.row].children[from.col - 1].removeChild(rows[from.row].children[from.col - 1].children[0])
+        if (from.col - to.col === -1 && rows[to.row].children[to.col].children.length === 0)
+            rows[from.row].children[from.col + 1].removeChild(rows[from.row].children[from.col + 1].children[0])
+    }
+
+    // check castling
+
+    if(fromElement.children[0].src.includes('king')) {
+
+        if (from.col - to.col === 2 && colourBoolean) {
+
+            const rook = rows[from.row].children[from.col - 4].children[0];
+            rows[from.row].children[from.col - 1].appendChild(rook);
+        }
+
+        if (from.col - to.col === -2 && colourBoolean) {
+
+            const rook = rows[from.row].children[from.col + 3].children[0];
+            rows[from.row].children[from.col + 1].appendChild(rook);
+        }
+
+        if (from.col - to.col === 2 && !colourBoolean) {
+
+            const rook = rows[from.row].children[from.col - 3].children[0];
+            rows[from.row].children[from.col - 1].appendChild(rook);
+        }
+
+        if (from.col - to.col === -2 && !colourBoolean) {
+
+            const rook = rows[from.row].children[from.col + 4].children[0];
+            rows[from.row].children[from.col + 1].appendChild(rook);
+        }
+    }
+
+    // move the piece
+
     if(toElement.children.length !== 0)
         toElement.removeChild(toElement.children[0]);
 
     toElement.appendChild(fromElement.children[0]);
+
 
     let roomNumber = window.location.href.split("/").slice(-1)[0];
 
@@ -229,6 +270,46 @@ function processGameMoves(theAllPossibleMoves) {
 
         const fromElement = rows[from.row].children[from.col];
         const toElement = rows[to.row].children[to.col];
+
+        // check en passant
+
+        if(fromElement.children[0].src.includes('pawn')) {
+            if (from.col - to.col === 1 && rows[to.row].children[to.col].children.length === 0)
+                rows[from.row].children[from.col - 1].removeChild(rows[from.row].children[from.col - 1].children[0])
+            if (from.col - to.col === -1 && rows[to.row].children[to.col].children.length === 0)
+                rows[from.row].children[from.col + 1].removeChild(rows[from.row].children[from.col + 1].children[0])
+        }
+
+        // check castling
+
+        if(fromElement.children[0].src.includes('king')) {
+
+            if (from.col - to.col === 2 && colourBoolean) {
+
+                const rook = rows[from.row].children[from.col - 4].children[0];
+                rows[from.row].children[from.col - 1].appendChild(rook);
+            }
+
+            if (from.col - to.col === -2 && colourBoolean) {
+
+                const rook = rows[from.row].children[from.col + 3].children[0];
+                rows[from.row].children[from.col + 1].appendChild(rook);
+            }
+
+            if (from.col - to.col === 2 && !colourBoolean) {
+
+                const rook = rows[from.row].children[from.col - 3].children[0];
+                rows[from.row].children[from.col - 1].appendChild(rook);
+            }
+
+            if (from.col - to.col === -2 && !colourBoolean) {
+
+                const rook = rows[from.row].children[from.col + 4].children[0];
+                rows[from.row].children[from.col + 1].appendChild(rook);
+            }
+        }
+
+        // move
 
         if(toElement.children.length !== 0)
             toElement.removeChild(toElement.children[0]);

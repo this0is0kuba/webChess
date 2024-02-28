@@ -102,10 +102,10 @@ public class Board {
 
         if(piece instanceof Pawn) {
 
-            if(from.getCol() - to.getCol() == 1 && pieces[from.getRow()][from.getCol() - 1] != null)
+            if(from.getCol() - to.getCol() == 1 && pieces[to.getRow()][to.getCol()] == null)
                 pieces[from.getRow()][from.getCol() - 1] = null;
 
-            if(from.getCol() - to.getCol() == -1 && pieces[from.getRow()][from.getCol() + 1] != null)
+            if(from.getCol() - to.getCol() == -1 && pieces[to.getRow()][to.getCol()] == null)
                 pieces[from.getRow()][from.getCol() + 1] = null;
         }
 
