@@ -11,6 +11,7 @@ import pl.edu.agh.webChess.communication.Message;
 import pl.edu.agh.webChess.communication.Move;
 import pl.edu.agh.webChess.game.chess.Board;
 import pl.edu.agh.webChess.game.chess.auxiliary.Moves;
+import pl.edu.agh.webChess.game.room.Room;
 import pl.edu.agh.webChess.game.room.RoomManager;
 import pl.edu.agh.webChess.game.room.Status;
 
@@ -60,8 +61,9 @@ public class WebSocketController {
     public AllMoves handleMoveInfo(@DestinationVariable String roomNumber, Move move) {
 
         int intRoomNumber = Integer.parseInt(roomNumber);
+        Room room = roomManager.getRoom(intRoomNumber);
 
-        Board board = roomManager.getRoom(intRoomNumber).getBoard();
+        Board board = room.getBoard();
         boolean colour = move.isColour();
 
         if(move.getFrom() == null) {
@@ -71,22 +73,42 @@ public class WebSocketController {
                 return new AllMoves(board.getAllPossibleMovesForReversedBorder(false), move, false);
         }
 
+        int endGameInfo = 2;
+
+        room.setWhiteTour(!room.isWhiteTour());
+
         if(colour) {
+
             board.movePiece(move.getFrom(), move.getTo());
             move.reverse();
 
-            roomManager.getRoom(intRoomNumber).setWhiteTour(!roomManager.getRoom(intRoomNumber).isWhiteTour());
+            if(board.checkEndGame(false) == 0) {
+                System.out.println("Win");
+                endGameInfo = 0;
+            }
+            if(board.checkEndGame(false) == 1) {
+                System.out.println("Lose");
+                endGameInfo = 1;
+            }
 
-            return new AllMoves(board.getAllPossibleMovesForReversedBorder(false), move, true);
+            return new AllMoves(board.getAllPossibleMovesForReversedBorder(false), move, true, endGameInfo);
         }
 
         else {
+
             move.reverse();
             board.movePiece(move.getFrom(), move.getTo());
 
-            roomManager.getRoom(intRoomNumber).setWhiteTour(!roomManager.getRoom(intRoomNumber).isWhiteTour());
+            if(board.checkEndGame(false) == 0) {
+                System.out.println("Win");
+                endGameInfo = 0;
+            }
+            if(board.checkEndGame(false) == 1) {
+                System.out.println("Lose");
+                endGameInfo = 1;
+            }
 
-            return new AllMoves(board.getAllPossibleMoves(true), move, false);
+            return new AllMoves(board.getAllPossibleMoves(true), move, false, endGameInfo);
         }
 
     }

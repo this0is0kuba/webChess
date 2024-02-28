@@ -321,6 +321,15 @@ function processGameMoves(theAllPossibleMoves) {
 
         changeTour()
     }
+
+    if(theAllPossibleMoves.infoAboutEndGame === 1)
+        alert("Draw");
+
+    if(theAllPossibleMoves.infoAboutEndGame === 0 && colourBoolean !== theAllPossibleMoves.colour)
+        alert("Win");
+
+    if(theAllPossibleMoves.infoAboutEndGame === 0 && colourBoolean === theAllPossibleMoves.colour)
+        alert("Loss");
 }
 
 function changeTour() {

@@ -5,9 +5,7 @@ import pl.edu.agh.webChess.game.chess.auxiliary.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-import static pl.edu.agh.webChess.game.chess.auxiliary.MateFunctions.checkIfCastlingIsPossible;
-
-public class King extends Piece{
+public class King extends Piece {
 
     public String name = "KING";
     boolean moved = false;
@@ -68,5 +66,9 @@ public class King extends Piece{
 
     public boolean isMoved() {
         return moved;
+    }
+
+    public void setMoved(boolean moved) {
+        this.moved = moved;
     }
 }

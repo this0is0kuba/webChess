@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static pl.edu.agh.webChess.game.chess.auxiliary.MateFunctions.checkIfCastlingIsPossible;
+import static pl.edu.agh.webChess.game.chess.auxiliary.MateFunctions.isYourKingMatedNow;
 
 public class Board {
 
@@ -165,6 +166,20 @@ public class Board {
         }
 
         return allPossibleMoves;
+    }
+
+    // 0 - mate, 1 - draw, 2 - game is on
+    public int checkEndGame(boolean colour) {
+
+        for(Moves moves: getAllPossibleMoves(colour))
+            if(moves.getTo().size() != 0)
+                return 2;
+
+        if(isYourKingMatedNow(pieces, colour))
+            return 0;
+        else
+            return 1;
+
     }
 
     private void addCastling(King king, List<Position> possiblePositions) {

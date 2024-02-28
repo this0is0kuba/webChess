@@ -9,11 +9,19 @@ public class AllMoves {
     List<Moves> possibleMoves;
     Move lastMove;
     boolean colour;
+    int infoAboutEndGame = 2; // 0 - lose, 1 - draw, 2 - game is on
 
     public AllMoves(List<Moves> possibleMoves, Move lastMove, boolean colour) {
         this.possibleMoves = possibleMoves;
         this.lastMove = lastMove;
         this.colour = colour;
+    }
+
+    public AllMoves(List<Moves> possibleMoves, Move lastMove, boolean colour, int infoAboutEndGame) {
+        this.possibleMoves = possibleMoves;
+        this.lastMove = lastMove;
+        this.colour = colour;
+        this.infoAboutEndGame = infoAboutEndGame;
     }
 
     public List<Moves> getPossibleMoves() {
@@ -38,5 +46,13 @@ public class AllMoves {
 
     public void setLastMove(Move lastMove) {
         this.lastMove = lastMove;
+    }
+
+    public int getInfoAboutEndGame() {
+        return infoAboutEndGame;
+    }
+
+    public void setInfoAboutEndGame(int infoAboutEndGame) {
+        this.infoAboutEndGame = infoAboutEndGame;
     }
 }

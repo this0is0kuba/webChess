@@ -6,6 +6,7 @@ import pl.edu.agh.webChess.game.chess.auxiliary.Moves;
 import pl.edu.agh.webChess.game.chess.auxiliary.Position;
 import pl.edu.agh.webChess.game.chess.pieces.King;
 import pl.edu.agh.webChess.game.chess.pieces.Piece;
+import pl.edu.agh.webChess.game.chess.pieces.Queen;
 import pl.edu.agh.webChess.game.chess.pieces.Rook;
 
 import java.util.List;
@@ -205,5 +206,45 @@ class BoardTest {
 
         initialBoard.movePiece(new Position(7, 4), new Position(7, 2)); // castling
         assertInstanceOf(Rook.class, initialBoard.getPiece(7, 3));
+    }
+
+    @Test
+    void checkEndOfTheGame() {
+
+        assertEquals(2, initialBoard.checkEndGame(false));
+
+        initialBoard.movePiece(new Position(6, 4), new Position(5, 4));
+        initialBoard.movePiece(new Position(1, 0), new Position(2, 0));
+        initialBoard.movePiece(new Position(7, 3), new Position(5, 5));
+        initialBoard.movePiece(new Position(1, 7), new Position(2, 7));
+        initialBoard.movePiece(new Position(7, 5), new Position(4, 2));
+        initialBoard.movePiece(new Position(1, 1), new Position(2, 1));
+        initialBoard.movePiece(new Position(5, 5), new Position(1, 5));
+
+        List<Moves> allMoves = initialBoard.getAllPossibleMoves(false);
+
+        for(Moves moves: allMoves) {
+
+             assertEquals(0, moves.getTo().size());
+        }
+
+        assertEquals(0, initialBoard.checkEndGame(false));
+    }
+
+    @Test
+    void checkEndOfTheGame2() {
+
+        King kingWhite = new King(true, 4, 0);
+        King kingBlack = new King(false, 6, 1);
+        Queen queenBlack = new Queen(false, 3, 2);
+
+        kingBlack.setMoved(true);
+        kingWhite.setMoved(true);
+
+        emptyBoard.setPiece(kingWhite);
+        emptyBoard.setPiece(kingBlack);
+        emptyBoard.setPiece(queenBlack);
+
+        assertEquals(1, emptyBoard.checkEndGame(true));
     }
 }
