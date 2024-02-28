@@ -99,7 +99,7 @@ public class Board {
 
         }
 
-        // check Taking en passant
+        // check Taking en passant and pawn promotion
 
         if(piece instanceof Pawn) {
 
@@ -108,6 +108,9 @@ public class Board {
 
             if(from.getCol() - to.getCol() == -1 && pieces[to.getRow()][to.getCol()] == null)
                 pieces[from.getRow()][from.getCol() + 1] = null;
+
+            if((to.getRow() == 0 && piece.getColour()) || (to.getRow() == 7 && !piece.getColour()))
+                piece = new Queen(piece.getColour(), from.getRow(), from.getCol());
         }
 
         pieces[to.getRow()][to.getCol()] = piece;

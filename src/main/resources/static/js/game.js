@@ -191,13 +191,25 @@ function move(from, to) {
     const fromElement = rows[from.row].children[from.col];
     const toElement = rows[to.row].children[to.col];
 
-    // check en passant
+    // check en passant and pawn promotion
 
     if(fromElement.children[0].src.includes('pawn')) {
+
         if (from.col - to.col === 1 && rows[to.row].children[to.col].children.length === 0)
-            rows[from.row].children[from.col - 1].removeChild(rows[from.row].children[from.col - 1].children[0])
+            rows[from.row].children[from.col - 1].removeChild(rows[from.row].children[from.col - 1].children[0]);
         if (from.col - to.col === -1 && rows[to.row].children[to.col].children.length === 0)
-            rows[from.row].children[from.col + 1].removeChild(rows[from.row].children[from.col + 1].children[0])
+            rows[from.row].children[from.col + 1].removeChild(rows[from.row].children[from.col + 1].children[0]);
+
+        if(to.row === 0) {
+            rows[from.row].children[from.col].removeChild(rows[from.row].children[from.col].children[0]);
+
+            const queen = document.createElement('img');
+            queen.src = "../images/chess-pieces/" + colour + "-queen.png";
+            queen.classList.add('img-fluid');
+            queen.classList.add('p-2');
+
+            rows[from.row].children[from.col].appendChild(queen);
+        }
     }
 
     // check castling
@@ -278,6 +290,17 @@ function processGameMoves(theAllPossibleMoves) {
                 rows[from.row].children[from.col - 1].removeChild(rows[from.row].children[from.col - 1].children[0])
             if (from.col - to.col === -1 && rows[to.row].children[to.col].children.length === 0)
                 rows[from.row].children[from.col + 1].removeChild(rows[from.row].children[from.col + 1].children[0])
+
+            if(to.row === 7) {
+                rows[from.row].children[from.col].removeChild(rows[from.row].children[from.col].children[0]);
+
+                const queen = document.createElement('img');
+                queen.src = "../images/chess-pieces/" + (colourBoolean? 'black' : 'white') + "-queen.png";
+                queen.classList.add('img-fluid');
+                queen.classList.add('p-2');
+
+                rows[from.row].children[from.col].appendChild(queen);
+            }
         }
 
         // check castling
