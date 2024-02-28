@@ -8,6 +8,8 @@ import pl.edu.agh.webChess.game.chess.pieces.King;
 import pl.edu.agh.webChess.game.chess.pieces.Piece;
 import pl.edu.agh.webChess.game.chess.pieces.Rook;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
@@ -160,5 +162,48 @@ class BoardTest {
             if(from.getRow() == 7 & from.getCol() == 5)
                 assertEquals(1, moves.getTo().size());
         }
+    }
+
+    @Test
+    void checkCastlingAndEnPassant() {
+
+        initialBoard.movePiece(new Position(6, 4), new Position(4, 4));
+        initialBoard.movePiece(new Position(1, 4), new Position(3, 4));
+        initialBoard.movePiece(new Position(7, 3), new Position(3, 7));
+        initialBoard.movePiece(new Position(0, 1), new Position(2, 2));
+        initialBoard.movePiece(new Position(3, 7), new Position(3, 4));
+
+        initialBoard.movePiece(new Position(0, 3), new Position(1, 4));
+        initialBoard.movePiece(new Position(6, 3), new Position(5, 3));
+        initialBoard.movePiece(new Position(1, 3), new Position(2, 3));
+        initialBoard.movePiece(new Position(7, 2), new Position(3, 6));
+        initialBoard.movePiece(new Position(0, 2), new Position(4, 6));
+        initialBoard.movePiece(new Position(7, 1), new Position(5, 2));
+
+        initialBoard.movePiece(new Position(1, 0), new Position(3, 0)); // pawn-2 black
+        initialBoard.movePiece(new Position(7, 6), new Position(5, 5)); // knight white
+        initialBoard.movePiece(new Position(3, 0), new Position(4, 0)); // pawn-1 black
+        initialBoard.movePiece(new Position(6, 1), new Position(4, 1)); // pawn-2 white
+
+        Piece[][] pieces = initialBoard.getPieces();
+
+        // check en passant
+
+        assertEquals(2, pieces[0][4].getPossibleMoves(pieces).size());
+        initialBoard.movePiece(new Position(4, 0), new Position(5, 1)); // take en passant
+        assertNull(initialBoard.getPiece(4, 1));
+
+        // check castling
+
+        List<Moves> allMoves = initialBoard.getAllPossibleMoves(true);
+
+        for(Moves moves: allMoves) {
+
+            if(moves.getFrom().getRow() == 7 && moves.getFrom().getCol() == 4)
+                assertEquals(4, moves.getTo().size());
+        }
+
+        initialBoard.movePiece(new Position(7, 4), new Position(7, 2)); // castling
+        assertInstanceOf(Rook.class, initialBoard.getPiece(7, 3));
     }
 }
