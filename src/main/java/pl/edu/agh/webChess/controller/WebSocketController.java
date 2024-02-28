@@ -5,6 +5,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import pl.edu.agh.webChess.communication.AllMoves;
 import pl.edu.agh.webChess.communication.GameInfo;
 import pl.edu.agh.webChess.communication.Message;
 import pl.edu.agh.webChess.communication.Move;
@@ -56,27 +57,38 @@ public class WebSocketController {
 
     @MessageMapping("game/room/{roomNumber}/gameMoves")
     @SendTo("topic/room/{roomNumber}/gameMoves")
-    public List<Moves> handleMoveInfo(@DestinationVariable String roomNumber, Move move) {
+    public AllMoves handleMoveInfo(@DestinationVariable String roomNumber, Move move) {
 
         int intRoomNumber = Integer.parseInt(roomNumber);
 
         Board board = roomManager.getRoom(intRoomNumber).getBoard();
-        boolean colour = board.getPiece(move.getFrom().getRow(), move.getFrom().getCol()).getColour();
+        boolean colour = move.isColour();
 
-        board.movePiece(move.getFrom(), move.getTo());
+        if(move.getFrom() == null) {
+            if(colour)
+                return new AllMoves(board.getAllPossibleMoves(true), move, true);
+            else
+                return new AllMoves(board.getAllPossibleMovesForReversedBorder(false), move, false);
+        }
 
-        return board.getAllPossibleMoves(colour);
+        if(colour) {
+            board.movePiece(move.getFrom(), move.getTo());
+            move.reverse();
+
+            roomManager.getRoom(intRoomNumber).setWhiteTour(!roomManager.getRoom(intRoomNumber).isWhiteTour());
+
+            return new AllMoves(board.getAllPossibleMovesForReversedBorder(false), move, true);
+        }
+
+        else {
+            move.reverse();
+            board.movePiece(move.getFrom(), move.getTo());
+
+            roomManager.getRoom(intRoomNumber).setWhiteTour(!roomManager.getRoom(intRoomNumber).isWhiteTour());
+
+            return new AllMoves(board.getAllPossibleMoves(true), move, false);
+        }
+
     }
 
-    @MessageMapping("game/room/{roomNumber}/firstMoves")
-    @SendTo("topic/room/{roomNumber}/firstMoves")
-    public List<Moves> returnFirstMoves(@DestinationVariable String roomNumber, GameInfo gameInfo) {
-
-        int intRoomNumber = Integer.parseInt(roomNumber);
-
-        Board board = roomManager.getRoom(intRoomNumber).getBoard();
-        boolean colour = gameInfo.getInfo().equals("true");
-
-        return board.getAllPossibleMoves(colour);
-    }
 }

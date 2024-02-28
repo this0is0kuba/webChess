@@ -48,7 +48,7 @@
             <div class="col-9 col-xl-5 board" id="board">
 
                 <div th:each="row : ${pieces}" class="my-row">
-                    <div th:each="piece : ${row}" class="cell">
+                    <div th:each="piece : ${row}" class="cell d-flex justify-content-center align-items-center">
                         <img th:if="${piece != null and piece.getColour() and piece.name == 'BISHOP'}" class="img-fluid p-2" src="../images/chess-pieces/white-bishop.png">
                         <img th:if="${piece != null and piece.getColour() and piece.name == 'KING'}" class="img-fluid p-2" src="../images/chess-pieces/white-king.png">
                         <img th:if="${piece != null and piece.getColour() and piece.name == 'KNIGHT'}" class="img-fluid p-2" src="../images/chess-pieces/white-knight.png">

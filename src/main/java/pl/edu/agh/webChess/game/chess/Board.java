@@ -61,7 +61,7 @@ public class Board {
 
         for(int i = 0; i < 8; i++)
             for(int j = 0; j < 8; j++) {
-                reversedPieces[i][j] = pieces[7 - i][j];
+                reversedPieces[i][j] = pieces[7 - i][7 - j];
             }
 
         return reversedPieces;
@@ -108,6 +108,24 @@ public class Board {
                     allPossibleMoves.add(moves);
                 }
             }
+
+        return allPossibleMoves;
+    }
+
+    public List<Moves> getAllPossibleMovesForReversedBorder(boolean colour) {
+
+        List<Moves> allPossibleMoves = getAllPossibleMoves(colour);
+
+        for(Moves moves: allPossibleMoves) {
+
+            moves.getFrom().setRow(7 - moves.getFrom().getRow());
+            moves.getFrom().setCol(7 - moves.getFrom().getCol());
+
+            for(Position position: moves.getTo()) {
+                position.setRow(7 - position.getRow());
+                position.setCol(7 - position.getCol());
+            }
+        }
 
         return allPossibleMoves;
     }

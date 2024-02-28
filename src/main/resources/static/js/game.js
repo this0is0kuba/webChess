@@ -1,7 +1,15 @@
 let stompClient2;
 const colour = document.getElementById('colour-info').textContent === 'true' ? 'white' : 'black';
+const colourBoolean = document.getElementById('colour-info').textContent === 'true';
 const board = document.getElementById("board");
-let allPossibleMoves;
+let colourTour = document.getElementById('is-white-tour').textContent === 'true' ? 'white' : 'black';
+
+let arrayOfListenerReferences = [];
+let arrayOfFieldReferences = [];
+let arrayOfListenerReferences2 = [];
+let arrayOfFieldReferences2 = [];
+
+let allPossibleMoves = [];
 
 addListener();
 
@@ -48,14 +56,12 @@ function setConnection() {
             processGameMoves(JSON.parse(move.body));
         })
 
-        stompClient2.subscribe("topic/room/" + roomNumber + "/firstMoves", function (move) {
-            processFirstMoves(JSON.parse(move.body));
-        })
+        const colourInfo = document.getElementById('colour-info').textContent;
+        const move = {"colour": colourInfo, "from": null, "to": null};
 
-        const username = document.getElementById("user").textContent;
-        const gameInfo = {"info": `${colour}`, "username": username};
+        if(colour === colourTour)
+            stompClient2.send("/game/room/" + roomNumber + "/gameMoves", {}, JSON.stringify(move));
 
-        stompClient2.send("/game/room/" + roomNumber + "/firstMoves", {}, JSON.stringify(gameInfo));
     })
 }
 
@@ -78,28 +84,173 @@ function addPossibilityToMovePieces() {
 
             if (pieceElement.children.length === 1 && pieceElement.children[0].src.includes(`${colour}`)) {
 
-                pieceElement.addEventListener("click", () => showPossibleMovesForPiece(i, j))
+                const referenceToListener2 = () => showPossibleMovesForPiece(i, j)
+                const referenceToField2 = pieceElement;
+
+                pieceElement.addEventListener("click", referenceToListener2)
+
+                arrayOfListenerReferences2.push(referenceToListener2);
+                arrayOfFieldReferences2.push(referenceToField2);
             }
         }
     }
 }
 
-// TODO
-// iterate through all possible moves and display them. Highlight the clicked field and turn off
-// highlight of the other clicked fields (use allPossibleMoves)
+
 function showPossibleMovesForPiece(i, j) {
+
+    if(colourTour !== colour)
+        return;
+
+    clearBoard()
+
+    const rows = board.children;
+    rows[i].children[j].style.backgroundColor = "gray";
+
+    let toArray;
+    let from;
+    for(let moves of allPossibleMoves) {
+        if (moves.from.row == i && moves.from.col == j) {
+            from = moves.from;
+            toArray = moves.to;
+        }
+    }
+
+    highlightPossibleMoves(from, toArray);
+}
+
+function clearBoard() {
+
+    for(let i = 0; i < arrayOfFieldReferences.length; i++)
+        arrayOfFieldReferences[i].removeEventListener('click', arrayOfListenerReferences[i]);
+
+    arrayOfListenerReferences = [];
+    arrayOfFieldReferences = [];
 
     const rows = board.children;
 
-    rows[i].children[j].style.backgroundColor = "gray";
+    // clear highlight
+    for(let i = 0; i < 8; i++)
+        for(let j = 0; j < 8; j++) {
 
-    console.log(i);
+            const element = rows[i].children[j];
+
+            if (element.style.backgroundColor === 'gray') {
+
+                if ((i + j) % 2 === 0)
+                    element.style.backgroundColor = '#CAD2C5';
+                else
+                    element.style.backgroundColor = '#52796F';
+            }
+
+            else if(element.style.borderColor !== '')
+                element.style.border = '';
+
+            else if(element.children.length !== 0 && element.children[0].classList.contains('rounded-circle'))
+                element.removeChild(element.children[0]);
+        }
+
 }
 
-function processGameMoves() {
-    console.log("moveee");
+function highlightPossibleMoves(from, toArray) {
+
+    const rows = board.children;
+
+    for(let to of toArray) {
+
+        const element = rows[to.row].children[to.col];
+
+        const referenceToField = element;
+        const referenceToListener = () => move(from, to);
+
+        element.addEventListener('click', referenceToListener);
+        arrayOfListenerReferences.push(referenceToListener);
+        arrayOfFieldReferences.push(referenceToField);
+
+        if(element.children.length === 1)
+            element.style.border = "2px solid red";
+        else {
+            const circle = document.createElement('div');
+            circle.style.width = '25%';
+            circle.style.height = '25%';
+            circle.style.margin = "auto";
+            circle.style.backgroundColor = "gray";
+            circle.classList.add('rounded-circle');
+            element.appendChild(circle);
+        }
+
+    }
 }
 
-function processFirstMoves(theAllPossibleMoves) {
-    allPossibleMoves = theAllPossibleMoves;
+function move(from, to) {
+
+    const rows = board.children;
+
+    clearBoard();
+
+    const fromElement = rows[from.row].children[from.col];
+    const toElement = rows[to.row].children[to.col];
+
+    if(toElement.children.length !== 0)
+        toElement.removeChild(toElement.children[0]);
+
+    toElement.appendChild(fromElement.children[0]);
+
+    let roomNumber = window.location.href.split("/").slice(-1)[0];
+
+    const colourInfo = document.getElementById('colour-info').textContent;
+    const move = {"colour": colourInfo, "from": from, "to": to};
+
+    if(colour === colourTour)
+        stompClient2.send("/game/room/" + roomNumber + "/gameMoves", {}, JSON.stringify(move));
+
+    changeTour();
+}
+
+function processGameMoves(theAllPossibleMoves) {
+
+    // change the second condition to check the if it is first move
+
+    if(theAllPossibleMoves.colour === colourBoolean && theAllPossibleMoves.lastMove.from == null) {
+
+        console.log("FIRST");
+
+        allPossibleMoves = theAllPossibleMoves.possibleMoves;
+    }
+
+    if(theAllPossibleMoves.colour !== colourBoolean && theAllPossibleMoves.lastMove.from !== null) {
+
+        console.log("download move");
+
+        const rows = board.children;
+
+        const from = theAllPossibleMoves.lastMove.from;
+        const to = theAllPossibleMoves.lastMove.to;
+
+        const fromElement = rows[from.row].children[from.col];
+        const toElement = rows[to.row].children[to.col];
+
+        if(toElement.children.length !== 0)
+            toElement.removeChild(toElement.children[0]);
+
+        toElement.appendChild(fromElement.children[0]);
+
+
+        allPossibleMoves = theAllPossibleMoves.possibleMoves;
+
+        changeTour()
+    }
+}
+
+function changeTour() {
+
+    for(let i = 0; i < arrayOfFieldReferences2.length; i++)
+        arrayOfFieldReferences2[i].removeEventListener('click', arrayOfListenerReferences2[i]);
+
+    arrayOfListenerReferences2 = [];
+    arrayOfFieldReferences2 = [];
+
+    colourTour = colourTour === 'white' ? 'black' : 'white';
+
+    addPossibilityToMovePieces();
 }
