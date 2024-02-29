@@ -50,6 +50,29 @@ public class WebSocketController {
             return gameInfo;
         }
 
+        if(gameInfo.getInfo().equals("userLeaved")) {
+
+            Room room = roomManager.getRoom(intRoomNumber);
+
+            if(gameInfo.getUsername().equals(room.getOwner().getUserName())) {
+
+                if(room.isConnectionEstablished())
+                    updateUserStatisticsWhenIsWinner(!room.getIsWhite(), room);
+
+                return new GameInfo("ownerLeaved", gameInfo.getUsername());
+            }
+
+            else {
+
+                if(room.isConnectionEstablished())
+                    updateUserStatisticsWhenIsWinner(room.getIsWhite(), room);
+
+                roomManager.getRoom(intRoomNumber).resetWhenUserLeave();
+                return new GameInfo("guestLeaved", gameInfo.getUsername());
+            }
+
+        }
+
         if(gameInfo.getInfo().equals("ready"))
             roomManager.setUserReady(gameInfo.getUsername(), intRoomNumber);
 

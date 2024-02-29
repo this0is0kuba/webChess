@@ -37,8 +37,8 @@ public class MainController {
         }
         else {
 
-            int percentage = userStatistics.getGamesWon() / totalGames;
-            model.addAttribute("percentage", percentage + "%");
+            float percentage = 100.0f * userStatistics.getGamesWon() / totalGames;
+            model.addAttribute("percentage", String.format("%.2f", percentage) + "%");
         }
 
         long ranking = userService.findUserRankingByUserName(userName);

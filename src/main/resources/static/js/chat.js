@@ -123,7 +123,7 @@ function startGame(username) {
     userStatusInfo.style.backgroundColor = "green";
 }
 
-function processGameInfo(gameInfo) {
+async function processGameInfo(gameInfo) {
 
     const username = document.getElementById('user').textContent;
 
@@ -137,6 +137,18 @@ function processGameInfo(gameInfo) {
         setReadyConfig();
         setStartConfig();
         console.log("the game has started");
+    }
+
+    console.log(gameInfo.info);
+
+    if(gameInfo.info === "guestLeaved") {
+        await new Promise(resolve => setTimeout(resolve, 300));
+        location.reload();
+    }
+
+    if(gameInfo.info === "ownerLeaved") {
+        await new Promise(resolve => setTimeout(resolve, 300));
+        window.location.href = 'http://localhost:8080/lobby/';
     }
 }
 
@@ -172,7 +184,7 @@ function setOpponentUsername(username) {
     }
 }
 
-function leaveRoom() {
+async function leaveRoom() {
 
     const roomNumber = window.location.href.split("/").slice(-1)[0];
     const username = document.getElementById("user").textContent;
@@ -180,6 +192,11 @@ function leaveRoom() {
         "username": username,
         "roomNumber": roomNumber
     }
+
+    const gameInfo = {"info": "userLeaved", "username": username};
+    stompClient.send("/game/room/" + roomNumber + "/game", {}, JSON.stringify(gameInfo))
+
+    await new Promise(resolve => setTimeout(resolve, 200));
 
     const url = "http://localhost:8080/game/processLeavingRoom";
 

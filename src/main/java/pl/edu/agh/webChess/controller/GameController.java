@@ -150,7 +150,9 @@ public class GameController {
 
         Room room = roomManager.getRoom(roomInfo.getRoomNumber());
 
-        int roomNumber = roomInfo.getRoomNumber();
+        if(room == null)
+            return new ResponseEntity<>(HttpStatus.OK);
+
         String username = roomInfo.getUsername();
 
         User owner = room.getOwner();

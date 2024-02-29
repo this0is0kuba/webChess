@@ -138,6 +138,17 @@ public class Room {
         board = new Board(false);
     }
 
+    public void resetWhenUserLeave() {
+
+        status = Status.SEARCHING;
+        ownerReady = false;
+        guestReady = false;
+        isWhiteTour = true;
+        isConnectionEstablished = false;
+
+        board = new Board(false);
+    }
+
     @Override
     public String toString() {
 
