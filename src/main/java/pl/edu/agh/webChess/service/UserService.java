@@ -21,4 +21,5 @@ public interface UserService extends UserDetailsService {
     long findUserRankingByUserName(String name);
 
     Collection<User> findTop10UsersByPoints();
+    void updateUsersStatisticsAfterGame(User winner, User loser, boolean draw);
 }

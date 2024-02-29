@@ -128,6 +128,16 @@ public class Room {
         this.board = board;
     }
 
+    public void resetAfterEndOfTheGame() {
+
+        status = Status.WAITING;
+        ownerReady = false;
+        guestReady = false;
+        isWhiteTour = true;
+
+        board = new Board(false);
+    }
+
     @Override
     public String toString() {
 

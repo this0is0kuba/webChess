@@ -14,17 +14,20 @@ import pl.edu.agh.webChess.game.chess.auxiliary.Moves;
 import pl.edu.agh.webChess.game.room.Room;
 import pl.edu.agh.webChess.game.room.RoomManager;
 import pl.edu.agh.webChess.game.room.Status;
+import pl.edu.agh.webChess.service.UserService;
 
 import java.util.List;
 
 @Controller
 public class WebSocketController {
 
+    private UserService userService;
     private RoomManager roomManager;
 
     @Autowired
-    WebSocketController(RoomManager roomManager) {
+    WebSocketController(RoomManager roomManager, UserService userService) {
         this.roomManager = roomManager;
+        this.userService = userService;
     }
 
     @MessageMapping("game/room/{roomNumber}/chat")
@@ -73,7 +76,7 @@ public class WebSocketController {
                 return new AllMoves(board.getAllPossibleMovesForReversedBorder(false), move, false);
         }
 
-        int endGameInfo = 2;
+        int endGameInfo;
 
         room.setWhiteTour(!room.isWhiteTour());
 
@@ -82,14 +85,7 @@ public class WebSocketController {
             board.movePiece(move.getFrom(), move.getTo());
             move.reverse();
 
-            if(board.checkEndGame(false) == 0) {
-                System.out.println("Win");
-                endGameInfo = 0;
-            }
-            if(board.checkEndGame(false) == 1) {
-                System.out.println("Lose");
-                endGameInfo = 1;
-            }
+            endGameInfo = checkEndGame(false, room);
 
             return new AllMoves(board.getAllPossibleMovesForReversedBorder(false), move, true, endGameInfo);
         }
@@ -99,18 +95,57 @@ public class WebSocketController {
             move.reverse();
             board.movePiece(move.getFrom(), move.getTo());
 
-            if(board.checkEndGame(false) == 0) {
-                System.out.println("Win");
-                endGameInfo = 0;
-            }
-            if(board.checkEndGame(false) == 1) {
-                System.out.println("Lose");
-                endGameInfo = 1;
-            }
+            endGameInfo = checkEndGame(true, room);
 
             return new AllMoves(board.getAllPossibleMoves(true), move, false, endGameInfo);
         }
 
+    }
+
+    private int checkEndGame(boolean colour, Room room) {
+
+        Board board = room.getBoard();
+
+        if(board.checkEndGame(colour) == 0) {
+
+            System.out.println("The winner is: " + !colour);
+            room.resetAfterEndOfTheGame();
+
+            updateUserStatisticsWhenIsWinner(!colour, room);
+
+            return 0;
+        }
+
+        if(board.checkEndGame(colour) == 1) {
+
+            System.out.println("Draw");
+            room.resetAfterEndOfTheGame();
+
+            updateUserStatisticsWhenIsDraw(room);
+
+            return 1;
+        }
+
+        return 2;
+    }
+
+    private void updateUserStatisticsWhenIsWinner(boolean winnerColour, Room room) {
+
+        if(winnerColour && room.getIsWhite())
+            userService.updateUsersStatisticsAfterGame(room.getOwner(), room.getGuest(), false);
+
+        if(!winnerColour && room.getIsWhite())
+            userService.updateUsersStatisticsAfterGame(room.getGuest(), room.getOwner(), false);
+
+        if(winnerColour && !room.getIsWhite())
+            userService.updateUsersStatisticsAfterGame(room.getGuest(), room.getOwner(), false);
+
+        if(!winnerColour && !room.getIsWhite())
+            userService.updateUsersStatisticsAfterGame(room.getOwner(), room.getGuest(), false);
+    }
+
+    private void updateUserStatisticsWhenIsDraw(Room room) {
+        userService.updateUsersStatisticsAfterGame(room.getOwner(), room.getGuest(), true);
     }
 
 }

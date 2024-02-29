@@ -260,7 +260,7 @@ function move(from, to) {
     changeTour();
 }
 
-function processGameMoves(theAllPossibleMoves) {
+async function processGameMoves(theAllPossibleMoves) {
 
     // change the second condition to check the if it is first move
 
@@ -345,14 +345,20 @@ function processGameMoves(theAllPossibleMoves) {
         changeTour()
     }
 
+    if(theAllPossibleMoves.infoAboutEndGame !== 2)
+        await new Promise(resolve => setTimeout(resolve, 300));
+
     if(theAllPossibleMoves.infoAboutEndGame === 1)
         alert("Draw");
 
     if(theAllPossibleMoves.infoAboutEndGame === 0 && colourBoolean !== theAllPossibleMoves.colour)
-        alert("Win");
+        alert("Loss");
 
     if(theAllPossibleMoves.infoAboutEndGame === 0 && colourBoolean === theAllPossibleMoves.colour)
-        alert("Loss");
+        alert("Win");
+
+    if(theAllPossibleMoves.infoAboutEndGame !== 2)
+        location.reload();
 }
 
 function changeTour() {

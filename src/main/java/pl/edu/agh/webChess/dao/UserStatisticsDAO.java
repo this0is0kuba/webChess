@@ -6,4 +6,5 @@ public interface UserStatisticsDAO {
 
     UserStatistics findUserStatisticsByUserName(String name);
     long findRowNumberByUserNameSortByPoints(String name);
+    void save(UserStatistics userStatistics);
 }

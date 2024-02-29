@@ -53,4 +53,9 @@ public class UserStatisticsDAOImpl implements UserStatisticsDAO {
 
         return query.getSingleResult();
     }
+
+    @Override
+    public void save(UserStatistics userStatistics) {
+        entityManager.merge(userStatistics);
+    }
 }

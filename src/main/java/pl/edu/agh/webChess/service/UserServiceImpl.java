@@ -95,4 +95,50 @@ public class UserServiceImpl implements UserService{
 
         return authorities;
     }
+
+    @Override
+    @Transactional
+    public void updateUsersStatisticsAfterGame(User winner, User loser, boolean draw) {
+
+        UserStatistics winnerStatistics = userStatisticsDAO.findUserStatisticsByUserName(winner.getUserName());
+        UserStatistics loserStatistics = userStatisticsDAO.findUserStatisticsByUserName(loser.getUserName());
+
+        if(draw) {
+
+            winnerStatistics.setGamesDrown(winnerStatistics.getGamesDrown() + 1);
+            loserStatistics.setGamesDrown(loserStatistics.getGamesDrown() + 1);
+        }
+        else {
+
+            winnerStatistics.setGamesWon(winnerStatistics.getGamesWon() + 1);
+            loserStatistics.setGamesLost(loserStatistics.getGamesLost() + 1);
+
+            int winnerPoints = winnerStatistics.getPoints();
+            int loserPoints = loserStatistics.getPoints();
+
+            int newPoints = 0;
+
+            if(winnerPoints != 0 && loserPoints != 0) {
+
+                int diff = winnerPoints - loserPoints;
+
+                if(diff > 250)
+                    newPoints = Math.min(loserPoints, 2);
+                else if(diff > 100)
+                    newPoints = Math.min(loserPoints, 5);
+                else if(diff > -100)
+                    newPoints = Math.min(loserPoints, 10);
+                else if(diff > -250)
+                    newPoints = Math.min(loserPoints, 15);
+                else
+                    newPoints = Math.min(loserPoints, 18);
+            }
+
+            winnerStatistics.setPoints(winnerPoints + newPoints);
+            loserStatistics.setPoints(loserPoints - newPoints);
+        }
+
+        userStatisticsDAO.save(winnerStatistics);
+        userStatisticsDAO.save(loserStatistics);
+    }
 }
