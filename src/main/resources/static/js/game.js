@@ -11,6 +11,13 @@ let arrayOfFieldReferences2 = [];
 
 let allPossibleMoves = [];
 
+let userTime = document.getElementById('time-user').textContent;
+let opponentTime = document.getElementById('time-opponent').textContent;
+let timeIntervalId;
+
+const timeUserElement = document.getElementById('time-user-display');
+const timeOpponentElement = document.getElementById('time-opponent-display');
+
 addListener();
 
 function addListener() {
@@ -19,6 +26,7 @@ function addListener() {
 
     if(checkIfGameStarted(roomStatus.textContent)) {
         setConnection();
+        startTimer();
         addPossibilityToMovePieces();
     }
 
@@ -31,6 +39,7 @@ function addListener() {
 
                 if(checkIfGameStarted(mutation.target.textContent)) {
                     setConnection();
+                    startTimer();
                     addPossibilityToMovePieces();
                 }
             }
@@ -68,6 +77,57 @@ function setConnection() {
 function checkIfGameStarted(text) {
 
     return text === "PLAYING";
+}
+
+function startTimer() {
+
+    if(colour === colourTour)
+        timeIntervalId = setInterval(updateUserClock, 10);
+    else
+        timeIntervalId = setInterval(updateOpponentClock, 10);
+}
+
+
+//TODO change clocks after change tour
+function updateUserClock() {
+
+    userTime -= 10;
+    displayClocks(true);
+}
+
+function updateOpponentClock() {
+
+    opponentTime -= 10;
+    displayClocks(false);
+}
+
+function displayClocks(isUser) {
+
+    let time;
+    let element;
+
+    // check if user or opponent
+    if(isUser) {
+        time = userTime;
+        element = timeUserElement;
+    }
+    else {
+        time = opponentTime;
+        element = timeOpponentElement;
+    }
+
+    let minutes = Math.floor(time / (1000 * 60));
+    let seconds = Math.floor((time - minutes * 1000 * 60) / 1000);
+
+    let minutesString = minutes.toString();
+    let secondsString = seconds.toString();
+
+    if(minutes < 10)
+        minutesString = "0" + minutesString;
+    if(seconds < 10)
+        secondsString = "0" + secondsString;
+
+    element.textContent = minutesString + ":" + secondsString;
 }
 
 function addPossibilityToMovePieces() {
@@ -363,6 +423,8 @@ async function processGameMoves(theAllPossibleMoves) {
 
 function changeTour() {
 
+
+
     for(let i = 0; i < arrayOfFieldReferences2.length; i++)
         arrayOfFieldReferences2[i].removeEventListener('click', arrayOfListenerReferences2[i]);
 
@@ -372,4 +434,7 @@ function changeTour() {
     colourTour = colourTour === 'white' ? 'black' : 'white';
 
     addPossibilityToMovePieces();
+
+    clearInterval(timeIntervalId);
+    startTimer();
 }

@@ -25,7 +25,8 @@
                 <div class="p-2 bg-dark rounded border border-2 text-center" style="width: 100%;">
                     <span id="opponent" th:text="${opponent}"></span>
                     <hr>
-                    <span th:text="${timeMinutesOpponent} + ':' + ${timeSecondsOpponent}"></span>
+                    <span id="time-opponent-display" th:text="${timeMinutesOpponent} + ':' + ${timeSecondsOpponent}"></span>
+                    <span id="time-opponent" th:text="${timeOpponent}" class="d-none"></span>
                 </div>
 
                 <div class="d-flex justify-content-center" style="width: 100%; margin-top: 8%;">
@@ -40,7 +41,8 @@
                 <div class="p-2 bg-dark rounded border border-2 text-center" style="width: 100%;">
                     <span id="user" th:text="${user}"></span>
                     <hr>
-                    <span th:text="${timeMinutesUser} + ':' + ${timeSecondsUser}"></span>
+                    <span id="time-user-display" th:text="${timeMinutesUser} + ':' + ${timeSecondsUser}"></span>
+                    <span id="time-user" th:text="${timeUser}" class="d-none"></span>
                 </div>
 
             </div>

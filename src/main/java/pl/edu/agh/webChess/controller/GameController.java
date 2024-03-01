@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.webChess.entity.User;
-import pl.edu.agh.webChess.game.chess.Board;
 import pl.edu.agh.webChess.game.chess.pieces.Piece;
 import pl.edu.agh.webChess.game.room.Room;
 import pl.edu.agh.webChess.game.room.RoomInfo;
@@ -132,6 +131,8 @@ public class GameController {
             return "authentication/access-denied";
         }
 
+        model.addAttribute("timeUser", timeUser);
+        model.addAttribute("timeOpponent", timeOpponent);
         addTimeToModel(model, timeMinutesUser, timeSecondsUser, timeMinutesOpponent, timeSecondsOpponent);
 
         model.addAttribute("isWhiteTour", room.isWhiteTour());

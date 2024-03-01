@@ -1,6 +1,5 @@
 let stompClient;
 
-
 connect().then( () => {
         setAppropriateStatusConnection();
         joinRoomMessage();
