@@ -29,9 +29,15 @@ function setAppropriateStatusConnection() {
     }
 
     const startButton = document.getElementById("startButton");
+    const userStatus = document.getElementById('user-status').style.backgroundColor;
+
+    console.log(userStatus);
 
     if(roomStatus.textContent !== "SEARCHING")
         startButton.style.visibility = "visible";
+
+    if(roomStatus.textContent === "WAITING" && userStatus === 'green')
+        startButton.style.visibility = "hidden";
 }
 
 function joinRoomMessage() {
