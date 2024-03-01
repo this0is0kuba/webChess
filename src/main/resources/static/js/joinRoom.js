@@ -52,5 +52,38 @@ function joinRoomAlert() {
                 window.location.href = String(data);
         })
         .catch(error => alert(error.message));
+}
 
+function joinTheRoom(ev) {
+
+    const code = ev.target.parentNode.parentNode.children[0].textContent;
+
+    console.log(code);
+
+    const url = "http://localhost:8080/game/" + code;
+
+    fetch(url,
+        {
+            method: "PUT",
+        })
+        .then(response => {
+                if(!response.ok)
+                    return response.text().then(errorMessage => {
+                        throw new Error(errorMessage);
+                    })
+
+                return response.text();
+            }
+        )
+        .then(data => {
+            if(String(data) === "null")
+                alert("There is no room with this code");
+
+            else if(String(data) === "This room is full!")
+                alert("This room is already full");
+
+            else
+                window.location.href = String(data);
+        })
+        .catch(error => alert(error.message));
 }

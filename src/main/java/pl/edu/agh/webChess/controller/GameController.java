@@ -136,6 +136,12 @@ public class GameController {
         }
         catch(Exception e) {
 
+            if(roomManager.getRoom(Integer.parseInt(roomNumber)).getOwner().getUserName().equals(userName))
+                return ResponseEntity.ok(protocolAndHost + contextPath + "/game/" + roomNumber);
+
+            if(roomManager.getRoom(Integer.parseInt(roomNumber)).getGuest().getUserName().equals(userName))
+                return ResponseEntity.ok(protocolAndHost + contextPath + "/game/" + roomNumber);
+
             if(e.getMessage().equals("This room is full!"))
                 return ResponseEntity.ok(e.getMessage());
 
