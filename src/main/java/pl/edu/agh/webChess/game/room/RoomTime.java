@@ -18,4 +18,19 @@ public enum RoomTime {
     public String getLabel() {
         return label;
     }
+
+    public long convertToMilliseconds() {
+
+        long minute = 1000 * 60;
+
+        return switch (this) {
+            case M1 -> minute;
+            case M3 -> minute * 3;
+            case M5 -> minute * 5;
+            case M10 -> minute * 10;
+            case M20 -> minute * 20;
+            case M30 -> minute * 30;
+            case H1 -> minute * 60;
+        };
+    }
 }

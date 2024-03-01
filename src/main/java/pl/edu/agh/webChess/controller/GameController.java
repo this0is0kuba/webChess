@@ -55,6 +55,14 @@ public class GameController {
         String ownerName = null;
         String guestName = null;
 
+        long timeUser;
+        long timeOpponent;
+
+        long timeMinutesUser;
+        long timeMinutesOpponent;
+        long timeSecondsUser;
+        long timeSecondsOpponent;
+
         if(owner != null)
             ownerName = owner.getUserName();
 
@@ -71,10 +79,22 @@ public class GameController {
 
             Piece[][] pieces;
 
-            if(room.getIsWhite())
+            if(room.getIsWhite()) {
                 pieces = roomManager.getRoom(intRoomNumber).getBoard().getPieces();
-            else
+                timeOpponent = roomManager.getRoom(intRoomNumber).getBlackTime();
+                timeUser = roomManager.getRoom(intRoomNumber).getWhiteTime();
+            }
+            else {
                 pieces = roomManager.getRoom(intRoomNumber).getBoard().getReversedPieces();
+                timeUser = roomManager.getRoom(intRoomNumber).getBlackTime();
+                timeOpponent = roomManager.getRoom(intRoomNumber).getWhiteTime();
+            }
+
+            timeMinutesUser = timeUser / (1000 * 60);
+            timeSecondsUser = (timeUser - timeMinutesUser * 1000 * 60) / (1000);
+
+            timeMinutesOpponent = timeOpponent / (1000 * 60);
+            timeSecondsOpponent = (timeOpponent - timeMinutesOpponent * 1000 * 60) / (1000);
 
             model.addAttribute("pieces", pieces);
         }
@@ -88,16 +108,31 @@ public class GameController {
 
             Piece[][] pieces;
 
-            if(room.getIsWhite())
+            if(room.getIsWhite()) {
                 pieces = roomManager.getRoom(intRoomNumber).getBoard().getReversedPieces();
-            else
+                timeUser = roomManager.getRoom(intRoomNumber).getBlackTime();
+                timeOpponent = roomManager.getRoom(intRoomNumber).getWhiteTime();
+            }
+            else {
                 pieces = roomManager.getRoom(intRoomNumber).getBoard().getPieces();
+                timeOpponent = roomManager.getRoom(intRoomNumber).getBlackTime();
+                timeUser = roomManager.getRoom(intRoomNumber).getWhiteTime();
+            }
+
+            timeMinutesUser = timeUser / (1000 * 60);
+            timeSecondsUser = (timeUser - timeMinutesUser * 1000 * 60) / (1000);
+
+            timeMinutesOpponent = timeOpponent / (1000 * 60);
+            timeSecondsOpponent = (timeOpponent - timeMinutesOpponent * 1000 * 60) / (1000);
 
             model.addAttribute("pieces", pieces);
+
         }
         else {
             return "authentication/access-denied";
         }
+
+        addTimeToModel(model, timeMinutesUser, timeSecondsUser, timeMinutesOpponent, timeSecondsOpponent);
 
         model.addAttribute("isWhiteTour", room.isWhiteTour());
 
@@ -178,5 +213,34 @@ public class GameController {
 
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void addTimeToModel(
+            Model model, long timeMinutesUser, long timeSecondsUser,
+            long timeMinutesOpponent, long timeSecondsOpponent
+    ) {
+
+        String timeMinutesUserString = String.valueOf(timeMinutesUser);
+        String timeSecondsUserString = String.valueOf(timeSecondsUser);
+        String timeMinutesOpponentString = String.valueOf(timeMinutesOpponent);
+        String timeSecondsOpponentString = String.valueOf(timeSecondsOpponent);
+
+        if(timeMinutesUser < 10)
+            timeMinutesUserString = "0" + timeMinutesUserString;
+
+        if(timeMinutesOpponent < 10)
+            timeMinutesOpponentString = "0" + timeMinutesOpponentString;
+
+        if(timeSecondsUser < 10)
+            timeSecondsUserString = "0" + timeSecondsUserString;
+
+        if(timeSecondsOpponent < 10)
+            timeSecondsOpponentString = "0" + timeSecondsOpponentString;
+
+        model.addAttribute("timeMinutesUser", timeMinutesUserString);
+        model.addAttribute("timeSecondsUser", timeSecondsUserString);
+        model.addAttribute("timeMinutesOpponent", timeMinutesOpponentString);
+        model.addAttribute("timeSecondsOpponent", timeSecondsOpponentString);
+
     }
 }

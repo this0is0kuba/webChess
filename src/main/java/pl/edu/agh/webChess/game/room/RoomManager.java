@@ -23,6 +23,8 @@ public class RoomManager {
         room.setCode(generateUniqueCode());
         room.setOwner(user);
         room.setStatus(Status.SEARCHING);
+        room.setWhiteTime(room.getTime().convertToMilliseconds());
+        room.setBlackTime(room.getTime().convertToMilliseconds());
 
         activeUsers.add(user.getUserName());
         usedCodes.add(room.getCode());

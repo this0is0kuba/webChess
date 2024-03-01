@@ -12,6 +12,8 @@ public class Room {
     private User owner;
     private User guest;
     private RoomTime time;
+    private long whiteTime;
+    private long blackTime;
     private Status status;
     private String password;
     private boolean isWhite;
@@ -147,6 +149,22 @@ public class Room {
         isConnectionEstablished = false;
 
         board = new Board(false);
+    }
+
+    public long getWhiteTime() {
+        return whiteTime;
+    }
+
+    public void setWhiteTime(long whiteTime) {
+        this.whiteTime = whiteTime;
+    }
+
+    public long getBlackTime() {
+        return blackTime;
+    }
+
+    public void setBlackTime(long blackTime) {
+        this.blackTime = blackTime;
     }
 
     @Override

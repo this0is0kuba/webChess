@@ -31,8 +31,6 @@ function setAppropriateStatusConnection() {
     const startButton = document.getElementById("startButton");
     const userStatus = document.getElementById('user-status').style.backgroundColor;
 
-    console.log(userStatus);
-
     if(roomStatus.textContent !== "SEARCHING")
         startButton.style.visibility = "visible";
 
