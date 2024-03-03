@@ -1,7 +1,10 @@
 package pl.edu.agh.webChess.game.room;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.webChess.entity.User;
+import pl.edu.agh.webChess.service.UserService;
 
 import java.util.*;
 
@@ -14,6 +17,28 @@ public class RoomManager {
     private Random random = new Random();
     private int minCode = 1000;
     private int maxCode = 9999;
+
+    private UserService userService;
+
+    private Timer timer = new Timer();
+    TimerTask intervalTask = new TimerTask() {
+        @Override
+        public void run() {
+
+            for(Room room: rooms)
+                if(room.getWinner() != null) {
+                    updateUserStatistics(room.getWinner(), room.getLoser());
+                    room.resetAfterEndOfTheGame();
+                }
+        }
+    };
+
+    public RoomManager(UserService userService) {
+
+        this.userService = userService;
+
+        timer.scheduleAtFixedRate(intervalTask, 10, 10);
+    }
 
     public Room createRoom(Room room, User user) {
 
@@ -148,5 +173,9 @@ public class RoomManager {
         room.setOwnerReady(false);
         room.setOwnerReady(false);
         room.setConnectionEstablished(false);
+    }
+
+    private void updateUserStatistics(User winner, User loser) {
+        userService.updateUsersStatisticsAfterGame(winner, loser, false);
     }
 }

@@ -56,7 +56,7 @@ public class WebSocketController {
 
             if(gameInfo.getUsername().equals(room.getOwner().getUserName())) {
 
-                if(room.isConnectionEstablished())
+                if(room.isOwnerReady() && room.isGuestReady())
                     updateUserStatisticsWhenIsWinner(!room.getIsWhite(), room);
 
                 return new GameInfo("ownerLeaved", gameInfo.getUsername());
@@ -64,7 +64,7 @@ public class WebSocketController {
 
             else {
 
-                if(room.isConnectionEstablished())
+                if(room.isOwnerReady() && room.isGuestReady())
                     updateUserStatisticsWhenIsWinner(room.getIsWhite(), room);
 
                 roomManager.getRoom(intRoomNumber).resetWhenUserLeave();
@@ -110,7 +110,7 @@ public class WebSocketController {
 
             endGameInfo = checkEndGame(false, room);
 
-            return new AllMoves(board.getAllPossibleMovesForReversedBorder(false), move, true, endGameInfo);
+            return new AllMoves(board.getAllPossibleMovesForReversedBorder(false), move, true, endGameInfo, room.getWhiteTime());
         }
 
         else {
@@ -120,7 +120,7 @@ public class WebSocketController {
 
             endGameInfo = checkEndGame(true, room);
 
-            return new AllMoves(board.getAllPossibleMoves(true), move, false, endGameInfo);
+            return new AllMoves(board.getAllPossibleMoves(true), move, false, endGameInfo, room.getBlackTime());
         }
 
     }
@@ -131,7 +131,6 @@ public class WebSocketController {
 
         if(board.checkEndGame(colour) == 0) {
 
-            System.out.println("The winner is: " + !colour);
             room.resetAfterEndOfTheGame();
 
             updateUserStatisticsWhenIsWinner(!colour, room);
@@ -141,7 +140,6 @@ public class WebSocketController {
 
         if(board.checkEndGame(colour) == 1) {
 
-            System.out.println("Draw");
             room.resetAfterEndOfTheGame();
 
             updateUserStatisticsWhenIsDraw(room);

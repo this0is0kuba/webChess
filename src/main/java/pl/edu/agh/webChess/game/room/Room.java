@@ -1,19 +1,47 @@
 package pl.edu.agh.webChess.game.room;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.webChess.entity.User;
 import pl.edu.agh.webChess.game.chess.Board;
+import pl.edu.agh.webChess.service.UserService;
+import pl.edu.agh.webChess.service.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Room {
 
     private int code;
     private User owner;
     private User guest;
+
     private RoomTime time;
     private long whiteTime;
     private long blackTime;
+
+    private boolean pause = true;
+    private Timer timer = new Timer();
+    TimerTask intervalTask = new TimerTask() {
+        @Override
+        public void run() {
+
+            if(pause)
+                return;
+
+            if(isWhiteTour)
+                whiteTime -= 20;
+            else
+                blackTime -= 20;
+
+            if(whiteTime <= 0 || blackTime <= 0) {
+                pause = true;
+                emitTimeExpired();
+            }
+        }
+    };
+
     private Status status;
     private String password;
     private boolean isWhite;
@@ -24,7 +52,15 @@ public class Room {
     private boolean isWhiteTour = true;
     private Board board = new Board(false);
 
-    public Room() {}
+    private User winner;
+    private User loser;
+
+    @Autowired
+    private RoomManager roomManager;
+
+    public Room() {
+        timer.scheduleAtFixedRate(intervalTask, 0, 20);
+    }
 
     public boolean isOwnerReady() {
         return ownerReady;
@@ -32,6 +68,11 @@ public class Room {
 
     public void setOwnerReady(boolean ownerReady) {
         this.ownerReady = ownerReady;
+        if(guestReady) {
+            whiteTime = time.convertToMilliseconds();
+            blackTime = time.convertToMilliseconds();
+            pause = false;
+        }
     }
 
     public boolean isGuestReady() {
@@ -40,6 +81,11 @@ public class Room {
 
     public void setGuestReady(boolean guestReady) {
         this.guestReady = guestReady;
+        if(ownerReady) {
+            whiteTime = time.convertToMilliseconds();
+            blackTime = time.convertToMilliseconds();
+            pause = false;
+        }
     }
 
     public boolean isConnectionEstablished() {
@@ -132,15 +178,25 @@ public class Room {
 
     public void resetAfterEndOfTheGame() {
 
+        pause = true;
+
         status = Status.WAITING;
         ownerReady = false;
         guestReady = false;
         isWhiteTour = true;
 
+        whiteTime = time.convertToMilliseconds();
+        blackTime = time.convertToMilliseconds();
+
         board = new Board(false);
+
+        winner = null;
+        loser = null;
     }
 
     public void resetWhenUserLeave() {
+
+        pause = true;
 
         status = Status.SEARCHING;
         ownerReady = false;
@@ -148,7 +204,13 @@ public class Room {
         isWhiteTour = true;
         isConnectionEstablished = false;
 
+        whiteTime = time.convertToMilliseconds();
+        blackTime = time.convertToMilliseconds();
+
         board = new Board(false);
+
+        winner = null;
+        loser = null;
     }
 
     public long getWhiteTime() {
@@ -165,6 +227,53 @@ public class Room {
 
     public void setBlackTime(long blackTime) {
         this.blackTime = blackTime;
+    }
+
+    private void emitTimeExpired() {
+
+        pause = true;
+
+        User winner;
+        User loser;
+
+        if (whiteTime <= 0 && isWhite) {
+            loser = owner;
+            winner = guest;
+        }
+
+        else if (blackTime <= 0 && isWhite) {
+            loser = guest;
+            winner = owner;
+        }
+
+        else if (blackTime <= 0) {
+            loser = owner;
+            winner = guest;
+        }
+
+        else {
+            loser = guest;
+            winner = owner;
+        }
+
+        this.winner = winner;
+        this.loser = loser;
+    }
+
+    public User getWinner() {
+        return winner;
+    }
+
+    public void setWinner(User winner) {
+        this.winner = winner;
+    }
+
+    public User getLoser() {
+        return loser;
+    }
+
+    public void setLoser(User loser) {
+        this.loser = loser;
     }
 
     @Override

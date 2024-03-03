@@ -10,6 +10,7 @@ public class AllMoves {
     Move lastMove;
     boolean colour;
     int infoAboutEndGame = 2; // 0 - lose, 1 - draw, 2 - game is on
+    long time;
 
     public AllMoves(List<Moves> possibleMoves, Move lastMove, boolean colour) {
         this.possibleMoves = possibleMoves;
@@ -17,11 +18,20 @@ public class AllMoves {
         this.colour = colour;
     }
 
-    public AllMoves(List<Moves> possibleMoves, Move lastMove, boolean colour, int infoAboutEndGame) {
+    public AllMoves(List<Moves> possibleMoves, Move lastMove, boolean colour, int infoAboutEndGame, long time) {
         this.possibleMoves = possibleMoves;
         this.lastMove = lastMove;
         this.colour = colour;
         this.infoAboutEndGame = infoAboutEndGame;
+        this.time = time;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 
     public List<Moves> getPossibleMoves() {

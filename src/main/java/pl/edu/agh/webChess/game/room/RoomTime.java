@@ -1,6 +1,8 @@
 package pl.edu.agh.webChess.game.room;
 
 public enum RoomTime {
+
+    S5("5 seconds"),
     M1("1 minute"),
     M3("3 minutes"),
     M5("5 minutes"),
@@ -24,6 +26,7 @@ public enum RoomTime {
         long minute = 1000 * 60;
 
         return switch (this) {
+            case S5 -> minute / 12;
             case M1 -> minute;
             case M3 -> minute * 3;
             case M5 -> minute * 5;

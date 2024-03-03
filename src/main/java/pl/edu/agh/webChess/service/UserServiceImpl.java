@@ -136,7 +136,12 @@ public class UserServiceImpl implements UserService{
 
             winnerStatistics.setPoints(winnerPoints + newPoints);
             loserStatistics.setPoints(loserPoints - newPoints);
+
+            System.out.println("points: " + newPoints);
         }
+
+        System.out.println("winner: " + winner.getUserName());
+        System.out.println("looser: " + loser.getUserName());
 
         userStatisticsDAO.save(winnerStatistics);
         userStatisticsDAO.save(loserStatistics);

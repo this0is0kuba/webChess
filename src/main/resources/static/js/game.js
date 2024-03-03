@@ -81,24 +81,38 @@ function checkIfGameStarted(text) {
 
 function startTimer() {
 
+    displayClocks(true);
+    displayClocks(false);
+
     if(colour === colourTour)
-        timeIntervalId = setInterval(updateUserClock, 10);
+        timeIntervalId = setInterval(updateUserClock, 1000);
     else
-        timeIntervalId = setInterval(updateOpponentClock, 10);
+        timeIntervalId = setInterval(updateOpponentClock, 1000);
 }
 
 
-//TODO change clocks after change tour
 function updateUserClock() {
 
-    userTime -= 10;
+    userTime -= 1000;
     displayClocks(true);
+
+    if(userTime <= 0) {
+        clearInterval(timeIntervalId);
+        alert("Loss");
+        location.reload();
+    }
 }
 
 function updateOpponentClock() {
 
-    opponentTime -= 10;
+    opponentTime -= 1000;
     displayClocks(false);
+
+    if(opponentTime <= 0) {
+        clearInterval(timeIntervalId);
+        alert("Win");
+        location.reload();
+    }
 }
 
 function displayClocks(isUser) {
@@ -322,8 +336,6 @@ function move(from, to) {
 
 async function processGameMoves(theAllPossibleMoves) {
 
-    // change the second condition to check the if it is first move
-
     if(theAllPossibleMoves.colour === colourBoolean && theAllPossibleMoves.lastMove.from == null) {
 
         console.log("FIRST");
@@ -419,6 +431,17 @@ async function processGameMoves(theAllPossibleMoves) {
 
     if(theAllPossibleMoves.infoAboutEndGame !== 2)
         location.reload();
+
+    if(theAllPossibleMoves.lastMove.from !== null) {
+
+        console.log(theAllPossibleMoves.time);
+        console.log(theAllPossibleMoves.colour);
+
+        if(colourBoolean == theAllPossibleMoves.colour)
+            userTime = theAllPossibleMoves.time;
+        if(!colourBoolean == theAllPossibleMoves.colour)
+            opponentTime = theAllPossibleMoves.time;
+    }
 }
 
 function changeTour() {
