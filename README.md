@@ -2,7 +2,7 @@
 Web Application for chess players
 
 ## Description
-Application requires creating an account to access its content. After log in user can create a room or join another room to play chess. After each game user's staistics are updated. 
+Application requires creating an account to access its content. After logging in user can create a room or join another room to play chess. After each game user's staistics are updated. 
 Player can check his points and position in user ranking. Application analizes the state of game and sends only possible moves to frontend so user can easily search allowed moves. Backend renders pages and after receiving a http request sends them to user.
 Backend is created in Spring Boot and connected with MySQL database from which it obtains data. 
 
