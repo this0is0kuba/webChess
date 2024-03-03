@@ -420,6 +420,9 @@ async function processGameMoves(theAllPossibleMoves) {
     if(theAllPossibleMoves.infoAboutEndGame !== 2)
         await new Promise(resolve => setTimeout(resolve, 300));
 
+    console.log(theAllPossibleMoves.infoAboutEndGame);
+    console.log(theAllPossibleMoves.colour);
+
     if(theAllPossibleMoves.infoAboutEndGame === 1)
         alert("Draw");
 
